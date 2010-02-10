@@ -10,7 +10,11 @@
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 
-<div id='description'></div>
+<div id='export'>
+  <a href="./?_task=dummy&_action=plugin.exportEvents" title="Export to ICS">
+    <img src="./plugins/calendar/skins/default/images/export.png" title="Export to ICS" />
+  </a>
+</div>
 <div id="event">
   <form>
     <p>
@@ -25,5 +29,6 @@
     </p>
   </form>
 </div>
+<div id='description'></div>
 </body>
 </html>

@@ -20,6 +20,14 @@
   margin-top: 60px;
 }
 
-#event {
+#export {
+  width: 900px;
+  margin: 0 auto;
+  margin-top: 5px;
+  text-align: right;
+  display: none;
+}
+
+#event, #description {
   display: none;
 }

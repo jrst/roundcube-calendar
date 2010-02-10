@@ -141,6 +141,9 @@ class calendar extends rcube_plugin
     $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
     $end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
     
+    header("Content-Type: text/calendar");
+    header("Content-Disposition: inline; filename=calendar.ics");
+    
     echo $this->backend->exportEvents($start, $end);
     exit;
   }

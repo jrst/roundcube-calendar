@@ -28,7 +28,7 @@ $(document).ready(function() {
       center: 'title',
       right: 'agendaDay ,agendaWeek, month'
     },
-    height : $(window).height() - 75,
+    height : $(window).height() - 90,
 
     editable: true,
 
@@ -146,6 +146,7 @@ $(document).ready(function() {
          }).show();
       }
     });
+    $('#export').show();
   }
   
   // reload calendar

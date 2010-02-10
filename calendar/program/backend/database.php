@@ -155,21 +155,21 @@ class Database implements Backend
        );
 
       $ical = "BEGIN:VCALENDAR\n";
-      $ical += "VERSION:2.0\n";
-      $ical += "PRODID:-//RoundCube Webmail//NONSGML Calendar//EN\n";
-
+      $ical .= "VERSION:2.0\n";
+      $ical .= "PRODID:-//RoundCube Webmail//NONSGML Calendar//EN\n";
       while ($result && ($event = $this->rcmail->db->fetch_assoc($result))) {
-        $event['start'] = strtotime($event['start']) + ($tz * 3600);
-        $event['end'] = strtotime($event['end']) + ($tz * 3600);
-        $ical += "BEGIN:VEVENT\n";
-        $ical += "DTSTART:" + $event['start'] + "\n";
-        $ical += "DTEND:" + $event['end'] + "\n";
-        $ical += "SUMMARY:" + $event['title'] + "\n";
-        $ical += "DESCRIPTION:" + $event['description'] + "\n";
-        $ical += "END:VEVENT\n";
+        $start = strtotime($event['start']);
+        $end = strtotime($event['end']);
+        $ical .= "BEGIN:VEVENT\n";
+        $ical .= "DTSTART:" . date('Ymd\THis\Z',$start) . "\n";
+        if($start != $end) {
+          $ical .= "DTEND:" . date('Ymd\THis\Z',$end) . "\n";
+        }
+        $ical .= "SUMMARY:" . $event['summary'] . "\n";
+        $ical .= "DESCRIPTION:" . $event['description'] . "\n";
+        $ical .= "END:VEVENT\n";
       }
-
-      $ical += "END:VCALENDAR";
+      $ical .= "END:VCALENDAR";
 
       return $ical;
     }
