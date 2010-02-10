@@ -144,7 +144,7 @@ $(document).ready(function() {
             },
             buttons: buttons
          }).show();
-      },
+      }
     });
   }
   
