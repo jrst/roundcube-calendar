@@ -19,9 +19,9 @@ class calendar extends rcube_plugin
     $rcmail = rcmail::get_instance();
     
     if(file_exists("./plugins/calendar/config.inc.php")) {
-      $this->load_config('config.inc.php');
+      $this->load_config('config/config.inc.php');
     } else {
-      $this->load_config('config.inc.php.dist'); 
+      $this->load_config('config/config.inc.php.dist'); 
     }
     
     $backend_type = $rcmail->config->get('backend', 'database');
