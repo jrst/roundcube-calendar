@@ -54,7 +54,7 @@ $(document).ready(function() {
     },
     
     loading : function(isLoading) {
-      if() {
+      if(isLoading) {
         rcmail.set_busy(true,'loading');
       } else {
         rcmail.set_busy(false,'loading'); 
