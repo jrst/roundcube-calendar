@@ -62,7 +62,7 @@ class calendar extends rcube_plugin
 
     // add styles
     $skin = $rcmail->config->get('skin');
-    $this->include_stylesheet($skin . 'css/calendar.css');
+    $this->include_stylesheet($skin . 'calendar.css');
   }
 
   function startup() {
@@ -71,8 +71,8 @@ class calendar extends rcube_plugin
     $rcmail->output->set_pagetitle($this->gettext('calendar'));
 
     $skin = $rcmail->config->get('skin');
-    $this->include_stylesheet($skin . 'css/jquery-ui.css');
-    $this->include_stylesheet($skin . 'css/fullcalendar.css');
+    $this->include_stylesheet($skin . 'jquery-ui.css');
+    $this->include_stylesheet($skin . 'fullcalendar.css');
 
     $this->include_script('program/js/jquery-ui.js');
     $this->include_script('program/js/jquery-qtip.js');

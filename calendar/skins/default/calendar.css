@@ -3,7 +3,7 @@
  *
  * Plugin to add a calendar to RoundCube.
  *
- * @version 0.2 BETA
+ * @version 0.2 BETA 2
  * @author Lazlo Westerhof
  * @url http://rc-calendar.lazlo.me
  * @licence GNU GPL
@@ -11,7 +11,7 @@
  *
  **/
 #taskbar a.button-calendar {
-  background: url('../img/calendar.png') 0px 4px no-repeat;
+  background: url('images/calendar.png') 0px 4px no-repeat;
 }
 
 #calendar {
