@@ -14,6 +14,7 @@ $(document).ready(function() {
   
   // start loading
   rcmail.set_busy(true,'loading');
+  setTimeout("rcmail.set_busy(false)",3000);
 
   rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);       
   // get settings
@@ -31,7 +32,7 @@ $(document).ready(function() {
 
     editable: true,
 
-    events: "./?_action=plugin.getEvents",
+    events: "./?_task=dummy&_action=plugin.getEvents",
     
     monthNames : response.settings['months'],
     monthNamesShort : response.settings['months_short'],

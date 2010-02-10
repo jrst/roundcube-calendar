@@ -13,7 +13,6 @@
 
 class calendar extends rcube_plugin
 {
-  public $task = 'mail|settings';
   public $backend = null;
 
   function init() {
@@ -58,11 +57,12 @@ class calendar extends rcube_plugin
       'name'    => 'calendar',
       'class'   => 'button-calendar',
       'label'   => 'calendar.calendar',
-      'href'    => './?_task=mail&_action=plugin.calendar',
+      'href'    => './?_task=dummy&_action=plugin.calendar',
       ), 'taskbar');
 
     // add styles
-    $this->include_stylesheet('skins/default/css/calendar.css');
+    $skin = $rcmail->config->get('skin');
+    $this->include_stylesheet('skins/' . $skin . '/css/calendar.css');
   }
 
   function startup() {
@@ -70,8 +70,9 @@ class calendar extends rcube_plugin
 
     $rcmail->output->set_pagetitle($this->gettext('calendar'));
 
-    $this->include_stylesheet('skins/default/css/jquery-ui.css');
-    $this->include_stylesheet('skins/default/css/fullcalendar.css');
+    $skin = $rcmail->config->get('skin');
+    $this->include_stylesheet('skins/' . $skin . '/css/jquery-ui.css');
+    $this->include_stylesheet('skins/' . $skin . '/css/fullcalendar.css');
 
     $this->include_script('program/js/jquery-ui.js');
     $this->include_script('program/js/jquery-qtip.js');
