@@ -14,7 +14,6 @@ $(document).ready(function() {
   
   // start loading
   rcmail.set_busy(true,'loading');
-  setTimeout("rcmail.set_busy(false)",3000);
 
   rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);       
   // get settings
@@ -22,6 +21,7 @@ $(document).ready(function() {
   rcmail.http_post('plugin.getSettings', '');
   
   function setSettings(response) {
+  rcmail.set_busy(false,'loading');
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
@@ -53,6 +53,13 @@ $(document).ready(function() {
       month: rcmail.gettext('month', 'calendar')
     },
     
+    loading : function(isLoading) {
+      if() {
+        rcmail.set_busy(true,'loading');
+      } else {
+        rcmail.set_busy(false,'loading'); 
+      }
+    },    
     eventRender: function(event, element) {
       if(event.description.length) { 
         element.qtip({
@@ -83,7 +90,6 @@ $(document).ready(function() {
          var buttons = {};
          buttons[save] = function() {
            // send request to RoundCube
-           rcmail.set_busy(true,'loading');
            rcmail.http_post('plugin.newEvent', '_start='+date.getTime()/1000+'&_summary='+summary.val()+'&_description='+description.val()+'&_allDay='+allDay);
 
            $dialogContent.dialog("close");
@@ -152,6 +158,5 @@ $(document).ready(function() {
   // reload calendar
   function reloadCalendar() {
     $('#calendar').fullCalendar( 'refetchEvents');
-    rcmail.set_busy(false);
   }
 });
