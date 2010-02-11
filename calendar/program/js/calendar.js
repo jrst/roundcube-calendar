@@ -92,7 +92,7 @@ $(document).ready(function() {
          resetForm($dialogContent);
          var summary = $dialogContent.find("input[name='summary']");
          var description = $dialogContent.find("textarea[name='description']");
-         var category = $dialogContent.find("select[name='category']") + '';
+         var category = $dialogContent.find("select[name='category']");
 
          var save = rcmail.gettext('save', 'calendar');
          var cancel = rcmail.gettext('cancel', 'calendar');
