@@ -170,6 +170,9 @@ class Database implements Backend
         }
         $ical .= "SUMMARY:" . $event['summary'] . "\n";
         $ical .= "DESCRIPTION:" . $event['description'] . "\n";
+        if(!empty($event['category'])) {
+          $ical .= "CATEGORIES:" . strtoupper($event['category']) . "\n";
+        }
         $ical .= "END:VEVENT\n";
       }
       $ical .= "END:VCALENDAR";
