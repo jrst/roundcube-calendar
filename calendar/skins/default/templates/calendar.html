@@ -3,18 +3,16 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
-<script type="text/javascript" src="/functions.js"></script>
 </head>
 <body>
 <div id='calendar'></div>
-<roundcube:include file="/includes/taskbar.html" />
-<roundcube:include file="/includes/header.html" />
 
 <div id='export'>
   <a href="./?_task=dummy&_action=plugin.exportEvents" title="Export to ICS">
     <img src="./plugins/calendar/skins/default/images/export.png" title="Export to ICS" />
   </a>
 </div>
+
 <div id="event">
   <form>
     <p>
@@ -29,6 +27,10 @@
     </p>
   </form>
 </div>
+
 <div id='description'></div>
+
+<roundcube:include file="/includes/taskbar.html" />
+<roundcube:include file="/includes/header.html" />
 </body>
 </html>
