@@ -33,4 +33,6 @@ $labels['cancel'] = 'Terug';
 $labels['summary'] = 'Samenvatting';
 $labels['description'] = 'Beschrijving';
 $labels['all-day'] = 'hele dag';
+$labels['export'] = 'Exporteer naar ICS';
+$labels['category'] = 'Categorie';
 ?>

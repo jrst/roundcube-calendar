@@ -33,4 +33,6 @@ $labels['cancel'] = 'Cancel';
 $labels['summary'] = 'Summary';
 $labels['description'] = 'Description';
 $labels['all-day'] = 'all-day';
+$labels['export'] = 'Export to ICS';
+$labels['category'] = 'Category';
 ?>

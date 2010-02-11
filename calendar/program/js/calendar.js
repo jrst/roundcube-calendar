@@ -19,7 +19,7 @@ $(document).ready(function() {
   // get settings
   rcmail.addEventListener('plugin.getSettings', setSettings);
   rcmail.http_post('plugin.getSettings', '');
-  
+
   function setSettings(response) {
   rcmail.set_busy(false,'loading');
   $('#calendar').fullCalendar({
@@ -28,7 +28,7 @@ $(document).ready(function() {
       center: 'title',
       right: 'agendaDay ,agendaWeek, month'
     },
-    height : $(window).height() - 90,
+    height : $(window).height() - 100,
 
     editable: true,
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
       week: rcmail.gettext('week', 'calendar'),
       month: rcmail.gettext('month', 'calendar')
     },
-    
+
     loading : function(isLoading) {
       if(isLoading) {
         rcmail.set_busy(true,'loading');
@@ -80,24 +80,24 @@ $(document).ready(function() {
     },
     dayClick: function(date, allDay, jsEvent, view) {
          var $dialogContent = $("#event");
-         $dialogContent.find("input").val("");
-         $dialogContent.find("textarea").val("");
+         resetForm($dialogContent);
          var summary = $dialogContent.find("input[name='summary']");
          var description = $dialogContent.find("textarea[name='description']");
+         var category = $dialogContent.find("select[name='category']");
 
          var save = rcmail.gettext('save', 'calendar');
          var cancel = rcmail.gettext('cancel', 'calendar');
          var buttons = {};
          buttons[save] = function() {
            // send request to RoundCube
-           rcmail.http_post('plugin.newEvent', '_start='+date.getTime()/1000+'&_summary='+summary.val()+'&_description='+description.val()+'&_allDay='+allDay);
+           rcmail.http_post('plugin.newEvent', '_start='+date.getTime()/1000+'&_summary='+summary.val()+'&_description='+description.val()+'&_category='+category.val()+'&_allDay='+allDay);
 
            $dialogContent.dialog("close");
          };
          buttons[cancel] = function() {
            $dialogContent.dialog("close");
          };
-         
+
          $dialogContent.dialog({
             modal: true,
             title: rcmail.gettext('new_event', 'calendar'),
@@ -110,11 +110,11 @@ $(document).ready(function() {
       },
       eventClick : function(event) {
          var $dialogContent = $("#event");
-         $dialogContent.find("input").val("");
-         $dialogContent.find("textarea").val("");
+         resetForm($dialogContent);
          var summary = $dialogContent.find("input[name='summary']").val(event.title);
          var description = $dialogContent.find("textarea[name='description']").val(event.description);
-         
+         var category = $dialogContent.find("select[name='category']").val(event.className);
+
          var save = rcmail.gettext('save', 'calendar');
          var remove = rcmail.gettext('remove', 'calendar');
          var cancel = rcmail.gettext('cancel', 'calendar');
@@ -122,9 +122,10 @@ $(document).ready(function() {
          buttons[save] = function() {
           event.title = summary.val();
           event.description = description.val();
+          event.className = category.val();
 
           // send request to RoundCube
-          rcmail.http_post('plugin.editEvent', '_event_id='+event.id+'&_summary='+event.title+'&_description='+description.val());
+          rcmail.http_post('plugin.editEvent', '_event_id='+event.id+'&_summary='+event.title+'&_description='+description.val()+'&_category='+category.val());
 
           $('#calendar').fullCalendar('updateEvent', event);
           $dialogContent.dialog("close");
@@ -158,5 +159,12 @@ $(document).ready(function() {
   // reload calendar
   function reloadCalendar() {
     $('#calendar').fullCalendar( 'refetchEvents');
+  }
+  
+  // reset form
+  function resetForm($dialogContent) {
+    $dialogContent.find("input").val("");
+    $dialogContent.find("textarea").val("");
+    $dialogContent.find("select").val("");
   }
 });

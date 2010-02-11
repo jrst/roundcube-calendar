@@ -21,32 +21,34 @@ class Database implements Backend
     $this->rcmail = $rcmail;
   }
   
-  public function newEvent($start, $summary, $description, $allDay) {
+  public function newEvent($start, $summary, $description, $category, $allDay) {
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "INSERT INTO events
-         (user_id, start, end, summary, description, all_day)
-         VALUES (?, ?, ?, ?, ?, ?)",
+         (user_id, start, end, summary, description, category, all_day)
+         VALUES (?, ?, ?, ?, ?, ?, ?)",
         $this->rcmail->user->ID,
         $start,
         $start,
         $summary,
-        $description,        
+        $description, 
+        $category,               
         $allDay
       );
       $this->rcmail->db->insert_id('events');
     }
   }
 
-  public function editEvent($id, $summary, $description) {
+  public function editEvent($id, $summary, $description, $category) {
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "UPDATE events 
-         SET summary = ?, description = ?
+         SET summary = ?, description = ?, category = ?
          WHERE event_id = ?
          AND user_id = ?",
         $summary,
         $description,
+        $category,
         $id,
         $this->rcmail->user->ID
       );
@@ -123,7 +125,8 @@ class Database implements Backend
           'start' => date('c', $event['start']), 
           'end'   => date('c', $event['end']), 
           'title' => $event['summary'], 
-          'description'  => $event['description'],           
+          'description'  => $event['description'],
+          'className'  => $event['category'],
           'allDay'=> ($event['all_day'] == 1)?true:false,
         ); 
       }

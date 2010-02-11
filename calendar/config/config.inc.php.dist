@@ -30,4 +30,9 @@ $rcmail_config['first_day'] = 1;
 // first hour of the calendar (0-23)
 $rcmail_config['first_hour'] = 6;
 
+// event categories
+$rcmail_config['categories'] = array('Personal' => 'c0c0c0', 
+                                         'Work' => 'ff0000',
+                                       'Family' => '00ff00',
+                                      'Holiday' => 'ff6600');
 ?>

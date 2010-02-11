@@ -8,8 +8,8 @@
 <div id='calendar'></div>
 
 <div id='export'>
-  <a href="./?_task=dummy&_action=plugin.exportEvents" title="Export to ICS">
-    <img src="./plugins/calendar/skins/default/images/export.png" title="Export to ICS" />
+  <a href="./?_task=dummy&amp;_action=plugin.exportEvents" title="<roundcube:label name="calendar.export" />">
+    <img src="./plugins/calendar/skins/default/images/export.png" title="<roundcube:label name="calendar.export" />" />
   </a>
 </div>
 
@@ -25,6 +25,10 @@
       <br />
       <textarea name="description"></textarea>
     </p>
+    <p>
+      <label for="category"><roundcube:label name="calendar.category" /></label>:
+      <roundcube:object name="plugin.category_html" />
+    </p>
   </form>
 </div>
 
@@ -32,5 +36,6 @@
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
+<roundcube:object name="plugin.category_css" />
 </body>
 </html>

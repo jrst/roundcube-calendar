@@ -4,7 +4,7 @@
  *
  * Interface for calendar backends
  *
- * @version 0.2 BETA
+ * @version 0.2 BETA 2
  * @author Lazlo Westerhof
  * @author Michael Duelli
  * @url http://rc-calendar.lazlo.me
@@ -17,22 +17,24 @@ interface Backend
    * Add a single event to the database
    *
    * @param  integer Event identifier
-   * @param  integer Event's new start
-   * @param  integer Event's new end
-   * @param  string  Event's new title
-   * @param  string  Event's new description
+   * @param  integer Event's start
+   * @param  string  Event's summary
+   * @param  string  Event's description
+   * @param  string  Event's category
+   * @param  integer Event allDay state
    * @access public
    */
-  public function newEvent($start, $end, $title, $description);
+  public function newEvent($start, $summary, $description, $category, $allDay);
 
   /**
    * Edit a single event
    *
    * @param  integer Event identifier
-   * @param  string  Event's new title
+   * @param  string  Event's title
+   * @param  string  Event's category
    * @access public
    */
-  public function editEvent($id, $title, $description);
+  public function editEvent($id, $title, $description, $category);
 
   /**
    * Move a single event

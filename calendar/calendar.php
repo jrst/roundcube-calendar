@@ -81,6 +81,9 @@ class calendar extends rcube_plugin
     }
     $this->include_stylesheet('skins/' . $skin . '/jquery-ui.css');
     $this->include_stylesheet('skins/' . $skin . '/fullcalendar.css');
+    
+    $this->register_handler('plugin.category_css', array($this, 'generateCSS'));
+    $this->register_handler('plugin.category_html', array($this, 'generateHTML'));
 
     $this->include_script('program/js/jquery-ui.js');
     $this->include_script('program/js/jquery-qtip.js');
@@ -94,10 +97,11 @@ class calendar extends rcube_plugin
     $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
     $summary = trim(get_input_value('_summary', RCUBE_INPUT_POST));
     $description = trim(get_input_value('_description', RCUBE_INPUT_POST));
+    $category = trim(get_input_value('_category', RCUBE_INPUT_POST));
     $allDay = get_input_value('_allDay', RCUBE_INPUT_POST);
     $allDay = ($allDay === "true")?1:0;
     
-    $this->backend->newEvent($start, $summary, $description, $allDay);
+    $this->backend->newEvent($start, $summary, $description, $category, $allDay);
    
     $rcmail = rcmail::get_instance();
     $rcmail->output->command('plugin.reloadCalendar', array());
@@ -107,8 +111,9 @@ class calendar extends rcube_plugin
     $id = get_input_value('_event_id', RCUBE_INPUT_POST);
     $summary = trim(get_input_value('_summary', RCUBE_INPUT_POST));
     $description = trim(get_input_value('_description', RCUBE_INPUT_POST));
-      
-    $this->backend->editEvent($id, $summary, $description);
+    $category = trim(get_input_value('_category', RCUBE_INPUT_POST));
+
+    $this->backend->editEvent($id, $summary, $description, $category);
   }
   
   function moveEvent() {
@@ -271,6 +276,40 @@ class calendar extends rcube_plugin
   
   function toGMT($time) {
     return date('Y-m-d H:i:s',$time - date('Z'));
+  }
+  
+  function generateCSS() {
+    $rcmail = rcmail::get_instance();
+    $categories = $rcmail->config->get('categories');    
+
+    $css = "";
+    if(!empty($categories)) {
+      $css .= "<style type=\"text/css\">\n";
+      foreach ($categories as $class => $color) {
+        $css .= "." . $class . ",\n";
+        $css .= ".fc-agenda ." . $class . " .fc-event-time,\n";
+        $css .= "." . $class . " a {\n";
+        $css .= "background-color: #" . $color . ";\n";
+        $css .= "border-color: #" . $color . ";\n";
+        $css .= "}\n";
+      }
+      $css .= "</style>";
+    }
+    return($css);
+  }
+
+  function generateHTML() {
+    $rcmail = rcmail::get_instance();
+    $categories = $rcmail->config->get('categories');    
+
+    $select = "<select name=\"category\">\n";
+    $select .= "<option value=\"\"></option>\n";
+    foreach ($categories as $class => $color) {
+      $select .= "<option value=\"" . $class . "\">" . $class . "</option>\n";
+    }
+    $select .= "</select>";
+
+    return($select);
   }
 }  
 ?>
