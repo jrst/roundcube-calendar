@@ -98,7 +98,7 @@ class Database implements Backend
     }
   }
   
-  public function getEvents($start, $end) {
+  private function getEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
       
       if ($this->rcmail->config->get('timezone') === "auto") {
@@ -118,21 +118,45 @@ class Database implements Backend
 
       $events = array(); 
       while ($result && ($event = $this->rcmail->db->fetch_assoc($result))) {
-        $event['start'] = strtotime($event['start']) + ($tz * 3600);
-        $event['end'] = strtotime($event['end']) + ($tz * 3600);
         $events[]=array( 
-          'id'    => $event['event_id'], 
-          'start' => date('c', $event['start']), 
-          'end'   => date('c', $event['end']), 
-          'title' => $event['summary'], 
-          'description'  => $event['description'],
-          'className'  => $event['category'],
-          'allDay'=> ($event['all_day'] == 1)?true:false,
+          'event_id'    => $event['event_id'], 
+          'start'       => $event['start'], 
+          'end'         => $event['end'], 
+          'summary'     => $event['summary'], 
+          'description' => $event['description'],
+          'category'    => $event['category'],
+          'allDay'      => $event['all_day'],
         ); 
       }
 
-      return json_encode($events);
+      return $events;
     }
+  }
+  
+  public function jsonEvents($start, $end) {
+    $events = $this->getEvents($start, $end);
+    
+    $json = array();
+    foreach ($events as $event) {
+      $event['start'] = strtotime($event['start']) + ($tz * 3600);
+      $event['end'] = strtotime($event['end']) + ($tz * 3600);
+      $json[]=array( 
+        'id'    => $event['event_id'], 
+        'start' => date('c', $event['start']), 
+        'end'   => date('c', $event['end']), 
+        'title' => $event['summary'], 
+        'description'  => $event['description'],
+        'className'  => $event['category'],
+        'allDay'=> ($event['all_day'] == 1)?true:false,
+      ); 
+    }
+    return json_encode($json);
+  }
+  
+  public function arrayEvents($start, $end) {
+    $events = $this->getEvents($start, $end);
+
+    return $events;
   }
     
   public function importEvents($events) {
@@ -142,31 +166,18 @@ class Database implements Backend
   public function exportEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
       
-      if ($this->rcmail->config->get('timezone') === "auto") {
-        $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-      } else {
-        $tz = $this->rcmail->config->get('timezone');
-        if($this->rcmail->config->get('dst_active')) {
-          $tz++;
-        }
-      }
-      
-      $result = $this->rcmail->db->query(
-        "SELECT * FROM events 
-         WHERE user_id=?",
-         $this->rcmail->user->ID
-       );
+      $events = $this->getEvents($start, $end);
 
       $ical = "BEGIN:VCALENDAR\n";
       $ical .= "VERSION:2.0\n";
       $ical .= "PRODID:-//RoundCube Webmail//NONSGML Calendar//EN\n";
-      while ($result && ($event = $this->rcmail->db->fetch_assoc($result))) {
-        $start = strtotime($event['start']);
-        $end = strtotime($event['end']);
+      foreach ($events as $event) {
+        $event['start'] = strtotime($event['start']);
+        $event['end'] = strtotime($event['end']);
         $ical .= "BEGIN:VEVENT\n";
-        $ical .= "DTSTART:" . date('Ymd\THis\Z',$start) . "\n";
+        $ical .= "DTSTART:" . date('Ymd\THis\Z',$event['start']) . "\n";
         if($start != $end) {
-          $ical .= "DTEND:" . date('Ymd\THis\Z',$end) . "\n";
+          $ical .= "DTEND:" . date('Ymd\THis\Z',$event['end']) . "\n";
         }
         $ical .= "SUMMARY:" . $event['summary'] . "\n";
         $ical .= "DESCRIPTION:" . $event['description'] . "\n";

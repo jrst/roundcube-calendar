@@ -146,7 +146,7 @@ class calendar extends rcube_plugin
     $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
     $end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
     
-    echo $this->backend->getEvents($start, $end);
+    echo $this->backend->jsonEvents($start, $end);
     exit;
   }
   
