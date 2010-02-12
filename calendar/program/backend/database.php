@@ -100,15 +100,6 @@ class Database implements Backend
   
   private function getEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
-      
-      if ($this->rcmail->config->get('timezone') === "auto") {
-        $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-      } else {
-        $tz = $this->rcmail->config->get('timezone');
-        if($this->rcmail->config->get('dst_active')) {
-          $tz++;
-        }
-      }
 
       $result = $this->rcmail->db->query(
         "SELECT * FROM events 
@@ -120,8 +111,8 @@ class Database implements Backend
       while ($result && ($event = $this->rcmail->db->fetch_assoc($result))) {
         $events[]=array( 
           'event_id'    => $event['event_id'], 
-          'start'       => $event['start'], 
-          'end'         => $event['end'], 
+          'start'       => $this->fromGMT($event['start']), 
+          'end'         => $this->fromGMT($event['end']), 
           'summary'     => $event['summary'], 
           'description' => $event['description'],
           'category'    => $event['category'],
@@ -133,13 +124,26 @@ class Database implements Backend
     }
   }
   
+  private function fromGMT($datetime) {
+    if ($this->rcmail->config->get('timezone') === "auto") {
+      $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
+    } else {
+      $tz = $this->rcmail->config->get('timezone');
+      if($this->rcmail->config->get('dst_active')) {
+        $tz++;
+      }
+    }
+    
+    $timestamp = strtotime($datetime) + ($tz * 3600);
+    
+    return $timestamp;
+  }
+  
   public function jsonEvents($start, $end) {
     $events = $this->getEvents($start, $end);
     
     $json = array();
     foreach ($events as $event) {
-      $event['start'] = strtotime($event['start']) + ($tz * 3600);
-      $event['end'] = strtotime($event['end']) + ($tz * 3600);
       $json[]=array( 
         'id'    => $event['event_id'], 
         'start' => date('c', $event['start']), 
@@ -172,8 +176,6 @@ class Database implements Backend
       $ical .= "VERSION:2.0\n";
       $ical .= "PRODID:-//RoundCube Webmail//NONSGML Calendar//EN\n";
       foreach ($events as $event) {
-        $event['start'] = strtotime($event['start']);
-        $event['end'] = strtotime($event['end']);
         $ical .= "BEGIN:VEVENT\n";
         $ical .= "DTSTART:" . date('Ymd\THis\Z',$event['start']) . "\n";
         if($start != $end) {
