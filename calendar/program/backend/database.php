@@ -177,9 +177,9 @@ class Database implements Backend
       $ical .= "PRODID:-//RoundCube Webmail//NONSGML Calendar//EN\n";
       foreach ($events as $event) {
         $ical .= "BEGIN:VEVENT\n";
-        $ical .= "DTSTART:" . date('Ymd\THis\Z',$event['start']) . "\n";
+        $ical .= "DTSTART:" . date('Ymd\THis\Z',$event['start'] - date('Z')) . "\n";
         if($start != $end) {
-          $ical .= "DTEND:" . date('Ymd\THis\Z',$event['end']) . "\n";
+          $ical .= "DTEND:" . date('Ymd\THis\Z',$event['end'] - date('Z')) . "\n";
         }
         $ical .= "SUMMARY:" . $event['summary'] . "\n";
         $ical .= "DESCRIPTION:" . $event['description'] . "\n";
