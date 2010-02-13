@@ -32,9 +32,15 @@ class calendar extends rcube_plugin
     require('program/backend/' . $backend_type . '.php');
     
     if($backend_type === "google") {
-      $this->backend = new Google($rcmail, 
+      $this->backend = new Google($rcmail,
                                   $rcmail->config->get('username'), 
                                   $rcmail->config->get('password'));
+    } else if($backend_type === "caldav") {
+      $this->backend = new CalDAV($rcmail,
+                                  $rcmail->config->get('caldav_server'), 
+                                  $rcmail->config->get('caldav_username'), 
+                                  $rcmail->config->get('caldav_password'),
+                                  $rcmail->config->get('caldav_calendar'));
     } else {
       $this->backend = new Database($rcmail);
     }
@@ -56,7 +62,7 @@ class calendar extends rcube_plugin
     $this->register_action('plugin.getEvents', array($this, 'getEvents'));
 
     //iCalendar (.ics) im/export
-    require('program/ics.php')
+    require('program/ics.php');
     $this->ics = new iCalendar($rcmail, $this->backend);
     //$this->register_action('plugin.importEvents', array($this, 'importEvents'));
     $this->register_action('plugin.exportEvents', array($this, 'exportEvents'));
