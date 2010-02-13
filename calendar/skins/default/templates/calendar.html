@@ -26,14 +26,16 @@
       <textarea name="description"></textarea>
     </p>
     <p>
-      <label for="category"><roundcube:label name="calendar.category" /></label>:
+      <label for="location"><roundcube:label name="calendar.location" /></label>:
+      <br />
+      <input name="location" />
+    </p>
+    <p>
+      <label for="categories"><roundcube:label name="calendar.category" /></label>:
       <roundcube:object name="plugin.category_html" />
     </p>
   </form>
 </div>
-
-<div id='description'></div>
-
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 <roundcube:object name="plugin.category_css" />

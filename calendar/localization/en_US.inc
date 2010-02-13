@@ -35,4 +35,5 @@ $labels['description'] = 'Description';
 $labels['all-day'] = 'all-day';
 $labels['export'] = 'Export to ICS';
 $labels['category'] = 'Category';
+$labels['location'] = 'Location';
 ?>

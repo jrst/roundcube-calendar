@@ -35,4 +35,5 @@ $labels['description'] = 'Beschrijving';
 $labels['all-day'] = 'hele dag';
 $labels['export'] = 'Exporteer naar ICS';
 $labels['category'] = 'Categorie';
+$labels['location'] = 'Locatie';
 ?>

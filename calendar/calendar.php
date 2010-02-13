@@ -96,11 +96,12 @@ class calendar extends rcube_plugin
     $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
     $summary = trim(get_input_value('_summary', RCUBE_INPUT_POST));
     $description = trim(get_input_value('_description', RCUBE_INPUT_POST));
-    $category = trim(get_input_value('_category', RCUBE_INPUT_POST));
+    $location = trim(get_input_value('_location', RCUBE_INPUT_POST));
+    $categories = trim(get_input_value('_categories', RCUBE_INPUT_POST));
     $allDay = get_input_value('_allDay', RCUBE_INPUT_POST);
     $allDay = ($allDay === "true")?1:0;
     
-    $this->backend->newEvent($start, $summary, $description, $category, $allDay);
+    $this->backend->newEvent($start, $summary, $description, $location, $categories, $allDay);
    
     $rcmail = rcmail::get_instance();
     $rcmail->output->command('plugin.reloadCalendar', array());
@@ -110,9 +111,10 @@ class calendar extends rcube_plugin
     $id = get_input_value('_event_id', RCUBE_INPUT_POST);
     $summary = trim(get_input_value('_summary', RCUBE_INPUT_POST));
     $description = trim(get_input_value('_description', RCUBE_INPUT_POST));
-    $category = trim(get_input_value('_category', RCUBE_INPUT_POST));
-
-    $this->backend->editEvent($id, $summary, $description, $category);
+    $location = trim(get_input_value('_location', RCUBE_INPUT_POST));
+    $categories = trim(get_input_value('_categories', RCUBE_INPUT_POST));
+    
+    $this->backend->editEvent($id, $summary, $description, $location, $categories);
   }
   
   function moveEvent() {
@@ -301,7 +303,7 @@ class calendar extends rcube_plugin
     $rcmail = rcmail::get_instance();
     $categories = $rcmail->config->get('categories');    
 
-    $select = "<select name=\"category\">\n";
+    $select = "<select name=\"categories\">\n";
     $select .= "<option value=\"\"></option>\n";
     foreach ($categories as $class => $color) {
       $select .= "<option value=\"" . $class . "\">" . $class . "</option>\n";

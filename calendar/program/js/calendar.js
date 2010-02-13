@@ -63,7 +63,10 @@ $(document).ready(function() {
     eventRender: function(event, element, view) { 
       if(view.name != "month") {
         if (event.className) {
-            element.find('span.fc-event-title').after("<span class=\"fc-event-category\">"+event.className+"</span>");
+            element.find('span.fc-event-title').after("<span class=\"fc-event-categories\">"+event.className+"</span>");
+        }
+        if (event.location) {
+            element.find('span.fc-event-title').after("<span class=\"fc-event-location\">@"+event.location+"</span>");
         }
         if (event.description) {
             element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+event.description+"</span>");
@@ -86,14 +89,15 @@ $(document).ready(function() {
          resetForm($dialogContent);
          var summary = $dialogContent.find("input[name='summary']");
          var description = $dialogContent.find("textarea[name='description']");
-         var category = $dialogContent.find("select[name='category']");
+         var categories = $dialogContent.find("select[name='categories']");
+         var location = $dialogContent.find("input[name='location']");
 
          var save = rcmail.gettext('save', 'calendar');
          var cancel = rcmail.gettext('cancel', 'calendar');
          var buttons = {};
          buttons[save] = function() {
            // send request to RoundCube
-           rcmail.http_post('plugin.newEvent', '_start='+date.getTime()/1000+'&_summary='+summary.val()+'&_description='+description.val()+'&_category='+category.val()+'&_allDay='+allDay);
+           rcmail.http_post('plugin.newEvent', '_start='+date.getTime()/1000+'&_summary='+summary.val()+'&_description='+description.val()+'&_location='+location.val()+'&_categories='+categories.val()+'&_allDay='+allDay);
 
            $dialogContent.dialog("close");
          };
@@ -116,7 +120,8 @@ $(document).ready(function() {
          resetForm($dialogContent);
          var summary = $dialogContent.find("input[name='summary']").val(event.title);
          var description = $dialogContent.find("textarea[name='description']").val(event.description);
-         var category = $dialogContent.find("select[name='category']").val(event.className);
+         var location = $dialogContent.find("input[name='location']").val(event.location);
+         var categories = $dialogContent.find("select[name='categories']").val(event.className);
 
          var save = rcmail.gettext('save', 'calendar');
          var remove = rcmail.gettext('remove', 'calendar');
@@ -125,10 +130,11 @@ $(document).ready(function() {
          buttons[save] = function() {
           event.title = summary.val();
           event.description = description.val();
-          event.className = category.val();
+          event.location = location.val();
+          event.className = categories.val();
 
           // send request to RoundCube
-          rcmail.http_post('plugin.editEvent', '_event_id='+event.id+'&_summary='+event.title+'&_description='+description.val()+'&_category='+category.val());
+          rcmail.http_post('plugin.editEvent', '_event_id='+event.id+'&_summary='+event.title+'&_description='+description.val()+'&_location='+location.val()+'&_categories='+categories.val());
 
           $('#calendar').fullCalendar('updateEvent', event);
           $dialogContent.dialog("close");

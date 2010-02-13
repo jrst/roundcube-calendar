@@ -21,34 +21,36 @@ class Database implements Backend
     $this->rcmail = $rcmail;
   }
   
-  public function newEvent($start, $summary, $description, $category, $allDay) {
+  public function newEvent($start, $summary, $description, $location, $categories, $allDay) {
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "INSERT INTO events
-         (user_id, start, end, summary, description, category, all_day)
-         VALUES (?, ?, ?, ?, ?, ?, ?)",
+         (user_id, start, end, summary, description, location, categories, all_day)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         $this->rcmail->user->ID,
         $start,
         $start,
         $summary,
-        $description, 
-        $category,               
+        $description,
+        $location,
+        $categories,    
         $allDay
       );
       $this->rcmail->db->insert_id('events');
     }
   }
 
-  public function editEvent($id, $summary, $description, $category) {
+  public function editEvent($id, $summary, $description, $location, $categories) {
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "UPDATE events 
-         SET summary = ?, description = ?, category = ?
+         SET summary = ?, description = ?, location = ?, categories = ?
          WHERE event_id = ?
          AND user_id = ?",
         $summary,
         $description,
-        $category,
+        $location,
+        $categories,
         $id,
         $this->rcmail->user->ID
       );
@@ -115,7 +117,8 @@ class Database implements Backend
           'end'         => $this->fromGMT($event['end']), 
           'summary'     => $event['summary'], 
           'description' => $event['description'],
-          'category'    => $event['category'],
+          'location'    => $event['location'],
+          'categories'  => $event['categories'],
           'allDay'      => $event['all_day'],
         ); 
       }
@@ -150,7 +153,8 @@ class Database implements Backend
         'end'   => date('c', $event['end']), 
         'title' => $event['summary'], 
         'description'  => $event['description'],
-        'className'  => $event['category'],
+        'location'    => $event['location'],
+        'className'  => $event['categories'],
         'allDay'=> ($event['all_day'] == 1)?true:false,
       ); 
     }
@@ -183,8 +187,11 @@ class Database implements Backend
         }
         $ical .= "SUMMARY:" . $event['summary'] . "\n";
         $ical .= "DESCRIPTION:" . $event['description'] . "\n";
-        if(!empty($event['category'])) {
-          $ical .= "CATEGORIES:" . strtoupper($event['category']) . "\n";
+        if(!empty($event['location'])) {
+          $ical .= "LOCATION:" . $event['location'] . "\n";
+        }
+        if(!empty($event['categories'])) {
+          $ical .= "CATEGORIES:" . strtoupper($event['categories']) . "\n";
         }
         $ical .= "END:VEVENT\n";
       }

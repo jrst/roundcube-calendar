@@ -28,14 +28,14 @@
   display: none;
 }
 
-#event, #description {
+#event {
   display: none;
 }
 
 .fc-event-title {
   font-weight: bold;
 }
-.fc-event-category {
-  margin-top: 5px;
+
+.fc-event-cateories {
   font-style:italic; 
 }

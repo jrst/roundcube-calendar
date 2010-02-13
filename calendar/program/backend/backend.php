@@ -20,21 +20,23 @@ interface Backend
    * @param  integer Event's start
    * @param  string  Event's summary
    * @param  string  Event's description
+   * @param  string  Event's location
    * @param  string  Event's category
    * @param  integer Event allDay state
    * @access public
    */
-  public function newEvent($start, $summary, $description, $category, $allDay);
+  public function newEvent($start, $summary, $description, $location, $categories, $allDay);
 
   /**
    * Edit a single event
    *
    * @param  integer Event identifier
    * @param  string  Event's title
+   * @param  string  Event's location
    * @param  string  Event's category
    * @access public
    */
-  public function editEvent($id, $title, $description, $category);
+  public function editEvent($id, $title, $description, $location, $categories);
 
   /**
    * Move a single event

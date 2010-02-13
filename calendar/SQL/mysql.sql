@@ -18,7 +18,8 @@ CREATE TABLE `events` (
   `end` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `summary` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `category` varchar(255) NOT NULL DEFAULT '',
+  `location` varchar(255) NOT NULL DEFAULT '',
+  `categories` varchar(255) NOT NULL DEFAULT '',
   `all_day` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY(`event_id`),
   CONSTRAINT `user_id_fk_events` FOREIGN KEY (`user_id`)
