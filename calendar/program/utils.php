@@ -2,7 +2,9 @@
 /**
  * RoundCube Calendar
  *
- * Import from and export to iCalendar (.ics) format.
+ * Some utility functions.
+ * - Import from and export to iCalendar (.ics) format.
+ * - Convert events from backend to JSON.
  *
  * @version 0.2 BETA 2
  * @author Lazlo Westerhof
@@ -11,7 +13,7 @@
  * @licence GNU GPL
  * @copyright (c) 2010 Lazlo Westerhof - Netherlands
  */
-class iCalendar
+class Utils
 {
   private $rcmail = null;
   private $backend = null;
@@ -70,5 +72,46 @@ class iCalendar
       return $ical;
     }
   }
+
+  /**
+   * Get events from database as JSON
+   *
+   * @param  integer Start time events window
+   * @param  integer End time events window
+   * @return string  JSON encoded events
+   * @access public
+   */
+  public function jsonEvents($start, $end) {
+    $events = $this->backend->getEvents($start, $end);
+    
+    $json = array();
+    foreach ($events as $event) {
+      $json[]=array( 
+        'id'    => $event['event_id'], 
+        'start' => date('c', $event['start']), 
+        'end'   => date('c', $event['end']), 
+        'title' => $event['summary'], 
+        'description'  => $event['description'],
+        'location'    => $event['location'],
+        'className'  => $event['categories'],
+        'allDay'=> ($event['all_day'] == 1)?true:false,
+      ); 
+    }
+    return json_encode($json);
+  }
+
+  /**
+   * Get events from database as an associative array
+   *
+   * @param  integer Start time events window
+   * @param  integer End time events window
+   * @return string  Associative events array
+   * @access public
+   */
+  public function arrayEvents($start, $end) {
+    $events = $this->backend->getEvents($start, $end);
+
+    return $events;
+  }
 }
-?>
+?>  

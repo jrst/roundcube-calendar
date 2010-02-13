@@ -66,25 +66,5 @@ interface Backend
    * @access public
    */
   public function removeEvent($id);
-
-  /**
-   * Get events from database as JSON
-   *
-   * @param  integer Start time events window
-   * @param  integer End time events window
-   * @return string  JSON encoded events
-   * @access public
-   */
-  public function jsonEvents($start, $end);
-  
-  /**
-   * Get events from database as an associative array
-   *
-   * @param  integer Start time events window
-   * @param  integer End time events window
-   * @return string  Associative events array
-   * @access public
-   */
-  public function arrayEvents($start, $end);
 }
 ?>

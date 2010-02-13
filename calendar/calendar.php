@@ -17,7 +17,8 @@ class calendar extends rcube_plugin
 
   public $backend = null;
 
-  public $ics = null;
+  /** Some utility functions */
+  public $utils = null;
 
   function init() {
     $rcmail = rcmail::get_instance();
@@ -44,6 +45,10 @@ class calendar extends rcube_plugin
     } else {
       $this->backend = new Database($rcmail);
     }
+
+    // Set up utils
+    require('program/utils.php');
+    $this->utils = new Utils($rcmail, $this->backend);
     
     $this->add_texts('localization/', true);
     
@@ -60,11 +65,6 @@ class calendar extends rcube_plugin
     $this->register_action('plugin.resizeEvent', array($this, 'resizeEvent'));
     $this->register_action('plugin.removeEvent', array($this, 'removeEvent'));
     $this->register_action('plugin.getEvents', array($this, 'getEvents'));
-
-    //iCalendar (.ics) im/export
-    require('program/ics.php');
-    $this->ics = new iCalendar($rcmail, $this->backend);
-    //$this->register_action('plugin.importEvents', array($this, 'importEvents'));
     $this->register_action('plugin.exportEvents', array($this, 'exportEvents'));
     
     // add taskbar button
@@ -160,7 +160,7 @@ class calendar extends rcube_plugin
     $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
     $end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
     
-    echo $this->backend->jsonEvents($start, $end);
+    echo $this->utils->jsonEvents($start, $end);
     exit;
   }
   
@@ -171,7 +171,7 @@ class calendar extends rcube_plugin
     header("Content-Type: text/calendar");
     header("Content-Disposition: inline; filename=calendar.ics");
     
-    echo $this->ics->exportEvents($start, $end);
+    echo $this->utils->exportEvents($start, $end);
     exit;
   }
 

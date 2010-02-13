@@ -100,7 +100,7 @@ class Database implements Backend
     }
   }
   
-  private function getEvents($start, $end) {
+  public function getEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
 
       $result = $this->rcmail->db->query(
@@ -140,31 +140,6 @@ class Database implements Backend
     $timestamp = strtotime($datetime) + ($tz * 3600);
     
     return $timestamp;
-  }
-  
-  public function jsonEvents($start, $end) {
-    $events = $this->getEvents($start, $end);
-    
-    $json = array();
-    foreach ($events as $event) {
-      $json[]=array( 
-        'id'    => $event['event_id'], 
-        'start' => date('c', $event['start']), 
-        'end'   => date('c', $event['end']), 
-        'title' => $event['summary'], 
-        'description'  => $event['description'],
-        'location'    => $event['location'],
-        'className'  => $event['categories'],
-        'allDay'=> ($event['all_day'] == 1)?true:false,
-      ); 
-    }
-    return json_encode($json);
-  }
-  
-  public function arrayEvents($start, $end) {
-    $events = $this->getEvents($start, $end);
-
-    return $events;
   }
 }
 ?>
