@@ -77,7 +77,7 @@ class calendar extends rcube_plugin
 
     // add styles
     $skin = $rcmail->config->get('skin');
-    if(!file_exists('skins/' . $skin . '/calendar.css')) {
+    if(!file_exists($this->home . '/skins/' . $skin . '/calendar.css')) {
       $skin = "default";
     }
     $this->include_stylesheet('skins/' . $skin . '/calendar.css');
