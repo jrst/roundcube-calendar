@@ -3,3 +3,5 @@
 *.old
 *~
 config/config.inc.php
+skins/*
+!skins/default
