@@ -34,4 +34,6 @@ $labels['summary'] = 'Zusammenfassung';
 $labels['description'] = 'Beschreibung';
 $labels['all-day'] = 'ganztägig';
 $labels['export'] = 'Als ICS exportieren';
+$labels['category'] = 'Kategorie';
+$labels['location'] = 'Ort';
 ?>
