@@ -2,3 +2,4 @@
 *.bak
 *.old
 *~
+config/config.inc.php
