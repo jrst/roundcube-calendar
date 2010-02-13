@@ -23,7 +23,7 @@ class calendar extends rcube_plugin
   function init() {
     $rcmail = rcmail::get_instance();
     
-    if(file_exists("./plugins/calendar/config.inc.php")) {
+    if(file_exists($this->home . "/config/config.inc.php")) {
       $this->load_config('config/config.inc.php');
     } else {
       $this->load_config('config/config.inc.php.dist'); 
