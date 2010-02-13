@@ -12,9 +12,15 @@ This plugin is skinable.
 This plugin ships a default skin which fits to the default skin of
 RoundCube.
 
-To create your own skin, simply copy the default skin,
-cp -R skins/default skins/myskin
-and edit files as you like, especially calendar.css.
+The plugin tries to load a plugin skin which is named after the skin
+which is set for the whole RoundCube installation. The plugin's
+default skin is used as the fallback if no customized skin of that
+name exists.
+
+To create your own skin, create a new directory (e.g., "myskin") in the 
+this plugin's skins/ directory. Then copy the files you want to adopt
+from the default skin to the folder of your new skin. Files which are
+not found in the customized skin will be taken from the default skin.
 
 Backends
 ------------------------------------------------------------------------
