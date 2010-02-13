@@ -1,0 +1,32 @@
+RoundCube Calendar
+------------------------------------------------------------------------
+
+Version:   0.2 BETA 2
+License:   GNU GPL
+Copyright: (c) 2010 Lazlo Westerhof - Netherlands
+
+Skins / Themes
+------------------------------------------------------------------------
+This plugin is skinable.
+
+This plugin ships a default skin which fits to the default skin of
+RoundCube.
+
+To create your own skin, simply copy the default skin,
+cp -R skins/default skins/myskin
+and edit files as you like, especially calendar.css.
+
+Backends
+------------------------------------------------------------------------
+The plugin separates the calendar view from the underlying backend.
+
+The following backends are available:
+
+1. "database": The default backend
+Local SQL database. There is a SQL file to initially set up the
+databases and tables.
+
+2. "google": (Status?)
+
+Requires a Google account!
+
