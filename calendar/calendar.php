@@ -86,7 +86,6 @@ class calendar extends rcube_plugin
     $this->register_handler('plugin.category_html', array($this, 'generateHTML'));
 
     $this->include_script('program/js/jquery-ui.js');
-    $this->include_script('program/js/jquery-qtip.js');
     $this->include_script('program/js/fullcalendar.js');
     $this->include_script('program/js/calendar.js');
     

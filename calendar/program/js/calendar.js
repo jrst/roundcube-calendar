@@ -60,20 +60,14 @@ $(document).ready(function() {
         rcmail.set_busy(false,'loading'); 
       }
     },    
-    eventRender: function(event, element) {
-      t = '';
-      if(event.className != '') { 
-       t = rcmail.gettext('category', 'calendar')+': '+ event.className;
-      }
-      if(event.description.length) { 
-        element.qtip({
-          content: {
-            text: event.description,
-            title: { 
-              text: t
-            }
-          }
-        });
+    eventRender: function(event, element, view) { 
+      if(view.name != "month") {
+        if (event.className) {
+            element.find('span.fc-event-title').after("<span class=\"fc-event-category\">"+event.className+"</span>");
+        }
+        if (event.description) {
+            element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+event.description+"</span>");
+        }
       }
     },
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {

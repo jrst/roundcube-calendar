@@ -31,3 +31,11 @@
 #event, #description {
   display: none;
 }
+
+.fc-event-title {
+  font-weight: bold;
+}
+.fc-event-category {
+  margin-top: 5px;
+  font-style:italic; 
+}
