@@ -86,23 +86,5 @@ interface Backend
    * @access public
    */
   public function arrayEvents($start, $end);
-  
-  /**
-   * Import events from iCalendar format
-   *
-   * @param  array Associative events array
-   * @access public
-   */
-  public function importEvents($events);
-  
-  /**
-   * Export events to iCalendar format
-   *
-   * @param  integer Start time events window
-   * @param  integer End time events window
-   * @return string  Events in iCalendar format (http://tools.ietf.org/html/rfc5545)
-   * @access public
-   */
-  public function exportEvents($start, $end);
 }
 ?>
