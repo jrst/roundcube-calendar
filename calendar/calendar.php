@@ -214,7 +214,7 @@ class calendar extends rcube_plugin
       
       $args['blocks']['calendar']['name'] = $this->gettext('calendar');
  
-      $default_view = $rcmail->config->get('default_view', "HH:mm");    
+      $default_view = $rcmail->config->get('default_view', "agendaWeek");    
       $field_id = 'rcmfd_default_view';
       $select = new html_select(array('name' => '_default_view', 'id' => $field_id));
       $select->add($this->gettext('day'), "agendaDay");
