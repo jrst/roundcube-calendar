@@ -2,7 +2,7 @@
 /**
  * RoundCube Calendar
  *
- * Interface for calendar backends
+ * Basis for all calendar backends
  *
  * @version 0.2 BETA 2
  * @author Lazlo Westerhof
@@ -11,7 +11,7 @@
  * @licence GNU GPL
  * @copyright (c) 2010 Lazlo Westerhof - Netherlands
  */
-interface Backend
+abstract class Backend
 {
   /**
    * Add a single event to the database
@@ -25,7 +25,7 @@ interface Backend
    * @param  integer Event allDay state
    * @access public
    */
-  public function newEvent($start, $summary, $description, $location, $categories, $allDay);
+  abstract public function newEvent($start, $summary, $description, $location, $categories, $allDay);
 
   /**
    * Edit a single event
@@ -36,7 +36,7 @@ interface Backend
    * @param  string  Event's category
    * @access public
    */
-  public function editEvent($id, $title, $description, $location, $categories);
+  abstract public function editEvent($id, $title, $description, $location, $categories);
 
   /**
    * Move a single event
@@ -47,7 +47,7 @@ interface Backend
    * @param  integer Event allDay state
    * @access public
    */
-  public function moveEvent($id, $start, $end, $allDay);
+  abstract public function moveEvent($id, $start, $end, $allDay);
 
   /**
    * Resize a single event
@@ -57,7 +57,7 @@ interface Backend
    * @param  integer Event's new end
    * @access public
    */
-  public function resizeEvent($id, $start, $end);
+  abstract public function resizeEvent($id, $start, $end);
   
   /**
    * Remove a single event from the database
@@ -65,6 +65,21 @@ interface Backend
    * @param  integer Event identifier
    * @access public
    */
-  public function removeEvent($id);
+  abstract public function removeEvent($id);
+  
+  final protected function fromGMT($datetime) {
+    if ($this->rcmail->config->get('timezone') === "auto") {
+      $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
+    } else {
+      $tz = $this->rcmail->config->get('timezone');
+      if($this->rcmail->config->get('dst_active')) {
+        $tz++;
+      }
+    }
+    
+    $timestamp = strtotime($datetime) + ($tz * 3600);
+    
+    return $timestamp;
+  }
 }
 ?>
