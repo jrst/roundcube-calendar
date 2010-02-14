@@ -89,7 +89,7 @@ class calendar extends rcube_plugin
     $rcmail->output->set_pagetitle($this->gettext('calendar'));
 
     $skin = $rcmail->config->get('skin');
-    if(!file_exists('skins/' . $skin . '/jquery-ui.css') || !file_exists('skins/' . $skin . '/fullcalendar.css')) {
+    if(!file_exists($this->home . '/skins/' . $skin . '/jquery-ui.css') || !file_exists($this->home . '/skins/' . $skin . '/fullcalendar.css')) {
       $skin = "default";
     }
     $this->include_stylesheet('skins/' . $skin . '/jquery-ui.css');
@@ -157,8 +157,13 @@ class calendar extends rcube_plugin
   }
   
   function getEvents() {
-    $start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
-    $end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
+    // FIXME Does this still work with database backend??
+    $start = get_input_value('start', RCUBE_INPUT_GET);
+    $end = get_input_value('end', RCUBE_INPUT_GET);
+    //$start = $this->toGMT(get_input_value('start', RCUBE_INPUT_GET));
+    //$end = $this->toGMT(get_input_value('end', RCUBE_INPUT_GET));
+    //$start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
+    //$end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
     
     echo $this->utils->jsonEvents($start, $end);
     exit;

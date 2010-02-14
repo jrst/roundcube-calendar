@@ -12,7 +12,7 @@
  *
  **/
 
-// backend type (database, google), see README
+// backend type (database, google, caldav), see README
 $rcmail_config['backend'] = "database";
 
 // default calendar view (agendaDay, agendaWeek, month)
@@ -35,4 +35,10 @@ $rcmail_config['categories'] = array('Personal' => 'c0c0c0',
                                          'Work' => 'ff0000',
                                        'Family' => '00ff00',
                                       'Holiday' => 'ff6600');
+
+// Settings for CalDAV backend.
+$rcmail_config['caldav_server'] = "https://caldav.server.com";
+$rcmail_config['caldav_user'] = "user";
+$rcmail_config['caldav_password'] = 'password';
+$rcmail_config['caldav_calendar'] = 'calendar';
 ?>

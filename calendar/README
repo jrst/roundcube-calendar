@@ -29,10 +29,26 @@ The plugin separates the calendar view from the underlying backend.
 The following backends are available:
 
 1. "database": The default backend
+
 Local SQL database. There is a SQL file to initially set up the
 databases and tables.
 
 2. "google": (Status?)
 
 Requires a Google account!
+
+3. "caldav": (Status: very alpha)
+
+Note: This backend has only been tested with a DAViCal 0.9.7 server!
+
+Features:
+- Event viewing (getEvents)
+
+Known issues:
+- Cannot add/remove/move/resize events
+- Only one calendar per user can be configured in config.inc.php
+- A fixed user and clear text password has to be stored in config.inc.php
+- Possible problems with multiple lines in descriptions
+- Possibly time zone handling is wrong
+- ... (guess there are more issues :-)
 
