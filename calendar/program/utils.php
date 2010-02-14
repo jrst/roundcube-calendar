@@ -38,8 +38,8 @@ class Utils
   /**
    * Export events to iCalendar format
    *
-   * @param  integer Start time events window
-   * @param  integer End time events window
+   * @param  integer Start time events window ('Y-m-d H:i:s')
+   * @param  integer End time events window ('Y-m-d H:i:s')
    * @return string  Events in iCalendar format (http://tools.ietf.org/html/rfc5545)
    * @access public
    */
@@ -75,8 +75,8 @@ class Utils
   /**
    * Get events from database as JSON
    *
-   * @param  integer Start time events window
-   * @param  integer End time events window
+   * @param  integer Start time events window ('Y-m-d H:i:s')
+   * @param  integer End time events window ('Y-m-d H:i:s')
    * @return string  JSON encoded events
    * @access public
    */
@@ -86,15 +86,15 @@ class Utils
     $json = array();
     foreach ($events as $event) {
       $json[]=array( 
-        'id'    => $event['event_id'], 
-        'start' => date('c', $event['start']), 
-        'end'   => date('c', $event['end']), 
-        'title' => $event['summary'], 
+        'id'    => $event['event_id'],
+        'start' => date('c', $event['start']), // ISO 8601 date (added in PHP 5)
+        'end'   => date('c', $event['end']), // ISO 8601 date (added in PHP 5)
+        'title' => $event['summary'],
         'description'  => $event['description'],
         'location'    => $event['location'],
         'className'  => $event['categories'],
         'allDay'=> ($event['all_day'] == 1)?true:false,
-      ); 
+      );
     }
     return json_encode($json);
   }
@@ -102,8 +102,8 @@ class Utils
   /**
    * Get events from database as an associative array
    *
-   * @param  integer Start time events window
-   * @param  integer End time events window
+   * @param  integer Start time events window ('Y-m-d H:i:s')
+   * @param  integer End time events window ('Y-m-d H:i:s')
    * @return string  Associative events array
    * @access public
    */

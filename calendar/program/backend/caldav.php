@@ -17,13 +17,12 @@ final class CalDAV extends Backend
 {
   private $rcmail = null;
   private $cal = null;
-  private $timezone_offset = null;
   
   /**
-   * @param rcmail
-   * @param string server   The CalDAV server
+   * @param object rcmail   The RoundCube instance.
+   * @param string server   The CalDAV server.
    * @param string user     The user name.
-   * @param string pass     The user's password
+   * @param string pass     The user's password.
    * @param string calendar The user calendar.
    */
   public function __construct($rcmail, $server, $user, $pass, $calendar) {
@@ -31,8 +30,6 @@ final class CalDAV extends Backend
 
     $this->cal = new CalDAVClient($server. "/" . $user, $user, $pass, $calendar);
     $this->cal->setUserAgent('RoundCube');
-    
-    $this->timezone_offset = intval(date("Z", time()));
   }
   
   public function newEvent($start, $summary, $description, $location, $categories, $allDay) {
@@ -58,7 +55,7 @@ final class CalDAV extends Backend
   public function getEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
       // Fetch events.
-      $result = $this->cal->GetEvents($this->to_iCalendar($start), $this->to_iCalendar($end));
+      $result = $this->cal->GetEvents($this->GMT_to_iCalendar($start), $this->GMT_to_iCalendar($end));
 
       $events = array();
       foreach ($result as $k => $event) {
@@ -95,12 +92,12 @@ final class CalDAV extends Backend
 	  if (is_null($eventid) && strpos($id, "UID") === 0)
 	    $eventid = $value;
 	  elseif (!isset($event['start']) && strpos($id, "DTSTART") === 0) {
-	    $event['start'] = $this->from_iCalendar($value);
-
+	    $event['start'] = $this->iCalendar_to_Unix($value);
+            
 	    // Check for all-day event.
 	    $event['all_day'] = (strlen($value) === 8 ? 0 : 1);
 	  } elseif (!isset($event['end']) && strpos($id, "DTEND") === 0)
-	    $event['end'] = $this->from_iCalendar($value);
+	    $event['end'] = $this->iCalendar_to_Unix($value);
 	  elseif (!isset($event['summary']) && strpos($id, "SUMMARY") === 0)
 	    $event['summary'] = $value;
 	  elseif (!isset($event['description']) && strpos($id, "DESCRIPTION") === 0) {
@@ -125,12 +122,12 @@ final class CalDAV extends Backend
 	  $event['location'] = "";
 	if (!isset($event['categories']))
 	  $event['categories'] = "";
-
+        
         $events[]=array( 
-          'event_id'    => $eventid, 
-          'start'       => $this->from_iCalendar($event['start']), 
-          'end'         => $this->from_iCalendar($event['end']), 
-          'summary'     => $event['summary'], 
+          'event_id'    => $eventid,
+          'start'       => $event['start'],
+          'end'         => $event['end'],
+          'summary'     => $event['summary'],
           'description' => $event['description'],
           'location'    => $event['location'],
           'categories'  => $event['categories'],
@@ -143,27 +140,27 @@ final class CalDAV extends Backend
   }
 
   /**
-   * Convert a unix time stamp in local time to the iCalendar format as defined in
+   * Convert a GMT time stamp ('Y-m-d H:i:s') to the iCalendar format as defined in
    * RFC 5545, Section 3.2.19, http://tools.ietf.org/html/rfc5545#section-3.2.19.
    *
-   * @param timestamp A unix time stamp
-   * @return An iCalendar time stamp, e.g. 20100201T000000Z
+   * @param timestamp A GMT time stamp ('Y-m-d H:i:s')
+   * @return An iCalendar time stamp, e.g. yyyymmddThhmmssZ
    */
-  private function to_iCalendar($timestamp) {
-    $gmt_timestamp = intval($timestamp);//FIXME - $this->timezone_offset;
-    return date("Ymd", $gmt_timestamp) . "T" . date("His", $gmt_timestamp) . "Z";
+  private function GMT_to_iCalendar($timestamp) {
+    $unix_timestamp = strtotime($timestamp);
+    return date("Ymd", $unix_timestamp) . "T" . date("His", $unix_timestamp) . "Z";
   }
 
   /**
    * Convert a time stamp in iCalendar format as defined in
    * RFC 5545, Section 3.2.19, http://tools.ietf.org/html/rfc5545#section-3.2.19
-   * to a Unix time stamp in local time.
+   * to a Unix time stamp. Further conversion is done in jsonEvents.
    *
-   * @param timestamp An iCalendar time stamp
-   * @return A unix time stamp, e.g. 1234567890
+   * @param timestamp An iCalendar time stamp, e.g. yyyymmddThhmmssZ
+   * @return A Unix time stamp
    */
-  private function from_iCalendar($timestamp) {
-    return intval(strtotime($timestamp));//FIXME + $this->timezone_offset;
+  private function iCalendar_to_Unix($timestamp) {
+    return strtotime($timestamp);
   }
 }
 ?>

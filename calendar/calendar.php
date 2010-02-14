@@ -157,13 +157,9 @@ class calendar extends rcube_plugin
   }
   
   function getEvents() {
-    // FIXME Does this still work with database backend??
-    $start = get_input_value('start', RCUBE_INPUT_GET);
-    $end = get_input_value('end', RCUBE_INPUT_GET);
-    //$start = $this->toGMT(get_input_value('start', RCUBE_INPUT_GET));
-    //$end = $this->toGMT(get_input_value('end', RCUBE_INPUT_GET));
-    //$start = $this->toGMT(get_input_value('_start', RCUBE_INPUT_POST));
-    //$end = $this->toGMT(get_input_value('_end', RCUBE_INPUT_POST));
+    // "start" and "end" are from fullcalendar, not RoundCube.
+    $start = $this->toGMT(get_input_value('start', RCUBE_INPUT_GET));
+    $end = $this->toGMT(get_input_value('end', RCUBE_INPUT_GET));
     
     echo $this->utils->jsonEvents($start, $end);
     exit;
