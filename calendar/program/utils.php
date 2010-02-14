@@ -44,8 +44,7 @@ class Utils
    * @access public
    */
   public function exportEvents($start, $end) {
-    if (!empty($this->rcmail->user->ID)) { // FIXME What for? (if not required, we would not need rcmail in here at all!)
-      
+    if (!empty($this->rcmail->user->ID)) {
       $events = $this->backend->getEvents($start, $end);
 
       $ical = "BEGIN:VCALENDAR\n";
@@ -114,4 +113,4 @@ class Utils
     return $events;
   }
 }
-?>  
+?>
