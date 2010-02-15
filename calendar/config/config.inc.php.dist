@@ -12,8 +12,9 @@
  *
  **/
 
-// backend type (database, google, caldav), see README
-$rcmail_config['backend'] = "database";
+// backend type (dummy, database, google, caldav), see README
+// Note: "dummy" is only for demonstrating basic functionality.
+$rcmail_config['backend'] = "dummy";
 
 // default calendar view (agendaDay, agendaWeek, month)
 $rcmail_config['default_view'] = "agendaWeek";

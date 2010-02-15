@@ -28,6 +28,11 @@ The plugin separates the calendar view from the underlying backend.
 
 The following backends are available:
 
+0. "dummy": A demonstrator for basic calendar functionality.
+
+In contrast to other backends, "dummy" does not depend on any
+databases or servers.
+
 1. "database": The default backend (experimental?)
 
 Local SQL database. There is a SQL file to initially set up the

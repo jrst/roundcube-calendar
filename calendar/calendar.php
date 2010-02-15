@@ -29,7 +29,7 @@ class calendar extends rcube_plugin
       $this->load_config('config/config.inc.php.dist'); 
     }
     
-    $backend_type = $rcmail->config->get('backend', 'database');
+    $backend_type = $rcmail->config->get('backend', 'dummy');
     require('program/backend/' . $backend_type . '.php');
     
     if($backend_type === "google") {
@@ -42,8 +42,10 @@ class calendar extends rcube_plugin
                                   $rcmail->config->get('caldav_username'), 
                                   $rcmail->config->get('caldav_password'),
                                   $rcmail->config->get('caldav_calendar'));
-    } else {
+    } else if($backend_type === "database") {
       $this->backend = new Database($rcmail);
+    } else {
+      $this->backend = new Dummy();
     }
 
     // Set up utils
