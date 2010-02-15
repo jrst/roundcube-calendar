@@ -12,12 +12,10 @@
  *
  **/
 
-
 $labels = array();
 
 // config
 $labels['default_view'] = 'Изглед';
-
 $labels['time_format'] = 'Формат на часовете';
 $labels['timeslots'] = 'Полета на час';
 $labels['first_day'] = 'Първи ден от седмицата';
@@ -37,5 +35,4 @@ $labels['description'] = 'Описание';
 $labels['all-day'] = 'цял ден';
 $labels['export'] = 'Запази като ICS';
 $labels['category'] = 'Категория';
-
 ?>
