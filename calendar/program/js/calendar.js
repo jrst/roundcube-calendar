@@ -61,7 +61,7 @@ $(document).ready(function() {
       }
     },    
     eventRender: function(event, element, view) { 
-      if(view.name != "month") {
+      if(view.name != "month" && !event.allDay) {
         if (event.className) {
             element.find('span.fc-event-title').after("<span class=\"fc-event-categories\">"+event.className+"</span>");
         }
@@ -162,7 +162,7 @@ $(document).ready(function() {
          }).show();
       }
     });
-    $('#export').show();
+    $('#toolbar').show();
   }
   
   // reload calendar
