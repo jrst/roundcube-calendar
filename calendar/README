@@ -37,7 +37,7 @@ databases and tables.
 
 Requires a Google account!
 
-3. "caldav": (Status: very alpha)
+3. "caldav": (Status: alpha)
 
 Note: This backend has only been tested with a DAViCal 0.9.7 server!
 
@@ -45,9 +45,9 @@ Features:
 - Event viewing (getEvents)
 
 Known issues:
+- A fixed user and clear text password has to be stored in config.inc.php
 - Cannot add/remove/move/resize events
 - Only one calendar per user can be configured in config.inc.php
-- A fixed user and clear text password has to be stored in config.inc.php
+  (for now it seems to show all calendars of a user in one calendar, however)
 - Possible problems with multiple lines in descriptions
 - ... (guess there are more issues :-)
-

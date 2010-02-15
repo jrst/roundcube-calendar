@@ -37,8 +37,8 @@ $rcmail_config['categories'] = array('Personal' => 'c0c0c0',
                                       'Holiday' => 'ff6600');
 
 // Settings for CalDAV backend.
-$rcmail_config['caldav_server'] = "http://caldav-test.ioda.net/caldav.php";
-$rcmail_config['caldav_user'] = 'superman';
+$rcmail_config['caldav_server'] = 'http://caldav-test.ioda.net/caldav.php';
+$rcmail_config['caldav_username'] = 'superman';
 $rcmail_config['caldav_password'] = 'ioda09';
 $rcmail_config['caldav_calendar'] = 'home';
 ?>
