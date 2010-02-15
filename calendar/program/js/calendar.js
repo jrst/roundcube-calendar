@@ -162,7 +162,7 @@ $(document).ready(function() {
          }).show();
       }
     });
-    $('#export').show();
+    $('#toolbar').show();
   }
   
   // reload calendar

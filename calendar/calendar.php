@@ -104,6 +104,14 @@ class calendar extends rcube_plugin
     $this->include_script('program/js/fullcalendar.js');
     $this->include_script('program/js/calendar.js');
     
+    $this->add_button(array(
+      'command' => 'plugin.exportEvents',
+      'href' => './?_task=dummy&amp;_action=plugin.exportEvents',
+      'title' => 'calendar.export',
+      'imagepas' => 'skins/' . $skin . '/images/export.png',
+      'imageact' => 'skins/' . $skin . '/images/export.png',
+      ), 'toolbar');
+      
     $rcmail->output->send('calendar.calendar');
   }
   
