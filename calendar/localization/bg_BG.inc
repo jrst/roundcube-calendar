@@ -4,7 +4,7 @@
  *
  * Plugin to add a calendar to RoundCube.
  *
- * @version 0.2 BETA
+ * @version 0.2 BETA 2
  * @author Lazlo Westerhof
  * @url http://rc-calendar.lazlo.me
  * @licence GNU GPL
@@ -12,9 +12,12 @@
  *
  **/
 
+
 $labels = array();
 
 // config
+$labels['default_view'] = 'Изглед';
+
 $labels['time_format'] = 'Формат на часовете';
 $labels['timeslots'] = 'Полета на час';
 $labels['first_day'] = 'Първи ден от седмицата';
@@ -31,4 +34,8 @@ $labels['remove'] = 'Изтриване';
 $labels['cancel'] = 'Отказ';
 $labels['summary'] = 'Заглавие';
 $labels['description'] = 'Описание';
+$labels['all-day'] = 'цял ден';
+$labels['export'] = 'Запази като ICS';
+$labels['category'] = 'Категория';
+
 ?>
