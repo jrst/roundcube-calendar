@@ -126,5 +126,20 @@ final class Database extends Backend
       return $events;
     }
   }
+  
+  private function fromGMT($datetime) {
+    if ($this->rcmail->config->get('timezone') === "auto") {
+      $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
+    } else {
+      $tz = $this->rcmail->config->get('timezone');
+      if($this->rcmail->config->get('dst_active')) {
+        $tz++;
+      }
+    }
+    
+    $timestamp = strtotime($datetime) + ($tz * 3600);
+    
+    return $timestamp;
+  }
 }
 ?>

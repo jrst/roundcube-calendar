@@ -66,20 +66,5 @@ abstract class Backend
    * @access public
    */
   abstract public function removeEvent($id);
-  
-  final protected function fromGMT($datetime) {
-    if ($this->rcmail->config->get('timezone') === "auto") {
-      $tz = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : date('Z')/3600;
-    } else {
-      $tz = $this->rcmail->config->get('timezone');
-      if($this->rcmail->config->get('dst_active')) {
-        $tz++;
-      }
-    }
-    
-    $timestamp = strtotime($datetime) + ($tz * 3600);
-    
-    return $timestamp;
-  }
 }
 ?>
