@@ -48,11 +48,14 @@ Note: This backend has only been tested with a DAViCal 0.9.7 server!
 
 Features:
 - Event viewing (getEvents)
+- Users: Either a fixed user and password is given in config.inc.php or you set
+    $rcmail_config['caldav_use_roundcube_login'] = true;
+  to use the RoundCube login and password for the CalDAV server. Useful when
+  RoundCube webmail and CalDAV server are operated in an LDAP domain.
 
 Known issues:
-- A fixed user and clear text password has to be stored in config.inc.php
 - Cannot add/remove/move/resize events
-- Only one calendar per user can be configured in config.inc.php
-  (for now it seems to show all calendars of a user in one calendar, however)
+- Different calendars per user cannot be explicitly selected
+  (caldav-client.php ignores the calendar argument)
 - Possible problems with multiple lines in descriptions
 - ... (guess there are more issues :-)

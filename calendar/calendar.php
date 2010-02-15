@@ -37,11 +37,20 @@ class calendar extends rcube_plugin
                                   $rcmail->config->get('username'), 
                                   $rcmail->config->get('password'));
     } else if($backend_type === "caldav") {
-      $this->backend = new CalDAV($rcmail,
-                                  $rcmail->config->get('caldav_server'), 
-                                  $rcmail->config->get('caldav_username'), 
-                                  $rcmail->config->get('caldav_password'),
-                                  $rcmail->config->get('caldav_calendar'));
+      if ($rcmail->config->get('caldav_use_roundcube_login') === true) {
+        $this->backend = new CalDAV($rcmail,
+                                    $rcmail->config->get('caldav_server'),
+                                    $_SESSION['username'],
+                                    $rcmail->decrypt($_SESSION['password']),
+                                    $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
+        echo get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1');
+      } else {
+        $this->backend = new CalDAV($rcmail,
+                                      $rcmail->config->get('caldav_server'),
+                                      $rcmail->config->get('caldav_username'),
+                                      $rcmail->config->get('caldav_password'),
+                                      $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
+      }
     } else if($backend_type === "database") {
       $this->backend = new Database($rcmail);
     } else {
@@ -87,7 +96,7 @@ class calendar extends rcube_plugin
 
   function startup() {
     $rcmail = rcmail::get_instance();
-
+    
     $rcmail->output->set_pagetitle($this->gettext('calendar'));
 
     $skin = $rcmail->config->get('skin');

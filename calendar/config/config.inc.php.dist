@@ -42,4 +42,7 @@ $rcmail_config['caldav_server'] = 'http://caldav-test.ioda.net/caldav.php';
 $rcmail_config['caldav_username'] = 'superman';
 $rcmail_config['caldav_password'] = 'ioda09';
 $rcmail_config['caldav_calendar'] = 'home';
+
+// If true, use login and password from RoundCube (useful for LDAP)
+$rcmail_config['caldav_use_roundcube_login'] = false;
 ?>
