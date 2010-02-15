@@ -33,12 +33,12 @@ The following backends are available:
 In contrast to other backends, "dummy" does not depend on any
 databases or servers.
 
-1. "database": The default backend (experimental?)
+1. "database": The default backend
 
 Local SQL database. There is a SQL file to initially set up the
 databases and tables.
 
-2. "google": (Status?)
+2. "google": (Status: coming soon)
 
 Requires a Google account!
 
