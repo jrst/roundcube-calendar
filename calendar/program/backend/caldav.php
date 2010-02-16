@@ -17,6 +17,7 @@ final class CalDAV extends Backend
 {
   private $rcmail = null;
   private $cal = null;
+  private $calendar = null;
   
   /**
    * @param object rcmail   The RoundCube instance.
@@ -27,8 +28,9 @@ final class CalDAV extends Backend
    */
   public function __construct($rcmail, $server, $user, $pass, $calendar) {
     $this->rcmail = $rcmail;
+    $this->calendar = '/' . $calendar;
 
-    $this->cal = new CalDAVClient($server. "/" . $user, $user, $pass, $calendar);
+    $this->cal = new CalDAVClient($server. "/" . $user, $user, $pass, $calendar /* is ignored currently */);
     $this->cal->setUserAgent('RoundCube');
   }
   
@@ -55,7 +57,7 @@ final class CalDAV extends Backend
   public function getEvents($start, $end) {
     if (!empty($this->rcmail->user->ID)) {
       // Fetch events.
-      $result = $this->cal->GetEvents($this->GMT_to_iCalendar($start), $this->GMT_to_iCalendar($end));
+      $result = $this->cal->GetEvents($this->GMT_to_iCalendar($start), $this->GMT_to_iCalendar($end), $this->calendar);
 
       $events = array();
       foreach ($result as $k => $event) {

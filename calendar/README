@@ -56,6 +56,6 @@ Features:
 Known issues:
 - Cannot add/remove/move/resize events
 - Different calendars per user cannot be explicitly selected
-  (caldav-client.php ignores the calendar argument)
+  -> needs new options for settings
 - Possible problems with multiple lines in descriptions
 - ... (guess there are more issues :-)
