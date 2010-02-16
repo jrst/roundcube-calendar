@@ -43,7 +43,6 @@ class calendar extends rcube_plugin
                                     $_SESSION['username'],
                                     $rcmail->decrypt($_SESSION['password']),
                                     $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
-        echo get_input_value('_pass', RCUBE_INPUT_POST, true, 'ISO-8859-1');
       } else {
         $this->backend = new CalDAV($rcmail,
                                       $rcmail->config->get('caldav_server'),
