@@ -119,7 +119,7 @@ final class Database extends Backend
           'description' => $event['description'],
           'location'    => $event['location'],
           'categories'  => $event['categories'],
-          'allDay'      => $event['all_day'],
+          'all_day'      => $event['all_day'],
         ); 
       }
 
