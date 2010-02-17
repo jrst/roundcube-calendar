@@ -2,8 +2,11 @@ RoundCube Calendar
 ==================
 
 Version:   0.2 BETA 2
+
 License:   GNU GPL
+
 Copyright: (c) 2010 Lazlo Westerhof - Netherlands
+
 Website:   [1]
 
 [1]: http://rc-calendar.lazlo.me/ "rc-calendar.lazlo.me"
