@@ -10,7 +10,6 @@
  * @licence GNU GPL
  * @copyright (c) 2010 Lazlo Westerhof - Netherlands
  */
-
 class calendar extends rcube_plugin
 {
   public $task = '?(?!login|logout).*';
@@ -31,25 +30,34 @@ class calendar extends rcube_plugin
     
     $backend_type = $rcmail->config->get('backend', 'dummy');
     require('program/backend/' . $backend_type . '.php');
-    
+
     if($backend_type === "google") {
       $this->backend = new Google($rcmail,
                                   $rcmail->config->get('username'), 
                                   $rcmail->config->get('password'));
     } else if($backend_type === "caldav") {
+      $myusername = $rcmail->config->get('caldav_username');
+      $mypassword = $rcmail->config->get('caldav_password');
+      
       if ($rcmail->config->get('caldav_use_roundcube_login') === true) {
-        $this->backend = new CalDAV($rcmail,
-                                    $rcmail->config->get('caldav_server'),
-                                    $_SESSION['username'],
-                                    $rcmail->decrypt($_SESSION['password']),
-                                    $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
-      } else {
-        $this->backend = new CalDAV($rcmail,
-                                      $rcmail->config->get('caldav_server'),
-                                      $rcmail->config->get('caldav_username'),
-                                      $rcmail->config->get('caldav_password'),
-                                      $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
+        $myusername = $_SESSION['username'];
+        $mypassword = $rcmail->decrypt($_SESSION['password']);
+        
+        // Strip top-level domain from login (username@domain.com -> username)
+        if ($rcmail->config->get('username_domain') !== '' /* global RoundCube setting */
+          && $rcmail->config->get('caldav_loginwithout_tld') === true) {
+          $a_myusername = explode('@', $_SESSION['username'], 2);
+          
+          if ($a_myusername !== false && !empty($a_myusername))
+            $myusername = $a_myusername[0];
+        }
       }
+      
+      $this->backend = new CalDAV($rcmail,
+                                  $rcmail->config->get('caldav_server'),
+                                  $myusername,
+                                  $mypassword,
+                                  $rcmail->config->get('caldav_calendar') /* FIXME currenty ignored */);
     } else if($backend_type === "database") {
       $this->backend = new Database($rcmail);
     } else {
