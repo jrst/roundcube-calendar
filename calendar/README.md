@@ -51,32 +51,32 @@ The plugin separates the calendar view from the underlying backend.
 
 The following backends are available:
 
-0. "dummy": A demonstrator for basic calendar functionality.
+### "dummy": A demonstrator for basic calendar functionality.
 
 In contrast to other backends, "dummy" does not depend on any
 databases or servers.
 
-1. "database": The default backend
+### "database": The default backend
 
 Local SQL database. There is a SQL file to initially set up the
 databases and tables.
 
-2. "google": (Status: coming soon)
+### "google": (Status: coming soon)
 
 Requires a Google account!
 
-3. "caldav": (Status: alpha)
+### "caldav": (Status: alpha)
 
 Note: This backend has only been tested with a DAViCal 0.9.7 server!
 
-### Features:
+#### Features:
 * Event viewing (getEvents)
 * Users: Either a fixed user and password is given in config.inc.php or you set
     $rcmail_config['caldav_use_roundcube_login'] = true;
   to use the RoundCube login and password for the CalDAV server. Useful when
   RoundCube webmail and CalDAV server are operated in an LDAP domain.
 
-### Known issues:
+#### Known issues:
 * Cannot add/remove/move/resize events
 * Different calendars per user cannot be explicitly selected
   -> needs new options for settings
