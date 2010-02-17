@@ -15,6 +15,7 @@
 $labels = array();
 
 // config
+$labels['default_view'] = 'Vue par défaut';
 $labels['time_format'] = 'Format de l\'heure';
 $labels['timeslots'] = 'Intervalle de temps par heure';
 $labels['first_day'] = 'Premier jour de la semaine';
@@ -29,4 +30,9 @@ $labels['edit_event'] = 'Editer l\'évènement';
 $labels['save'] = 'Enregistrer';
 $labels['remove'] = 'Supprimer';
 $labels['cancel'] = 'Annuler';
+$labels['summary'] = 'Sommaire';
+$labels['description'] = 'Description';
+$labels['all-day'] = 'Toute la journée';
+$labels['export'] = 'Exporter en format ICS';
+$labels['category'] = 'Categorie';
 ?>
