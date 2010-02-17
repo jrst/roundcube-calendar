@@ -1,15 +1,15 @@
 RoundCube Calendar
 ==================
 
-Version:   0.2 BETA 2
-License:   GNU GPL
-Copyright: (c) 2010 Lazlo Westerhof - Netherlands
-Website:   [rc-calendar.lazlo.me](http://rc-calendar.lazlo.me/ "RoundCube Calendar")
+* Version:   0.2 BETA 2
+* License:   GNU GPL
+* Copyright: (c) 2010 Lazlo Westerhof - Netherlands
+* Website:   [http://rc-calendar.lazlo.me/](http://rc-calendar.lazlo.me/ "RoundCube Calendar")
   
 Features
 --------
 
-*  full calendar
+* full calendar
 * add/edit/remove events
 * custom backend support
 * basic event categories
