@@ -1,12 +1,36 @@
 RoundCube Calendar
-------------------------------------------------------------------------
+==================
 
 Version:   0.2 BETA 2
 License:   GNU GPL
 Copyright: (c) 2010 Lazlo Westerhof - Netherlands
+Website:   [1]
+
+[1]: http://rc-calendar.lazlo.me/
+  
+Features
+--------
+
+*  full calendar
+* add/edit/remove events
+* custom backend support
+* basic event categories
+* export events to ICS
+* and more...
+
+Installation
+------------
+
+1. Unpack the RoundCube calendar package you downloaded
+2. Move the calendar folder into RoundCube's plugins folder
+3. Run the SQL file in /calendar/SQL/
+4. Remove the SQL folder
+5. Login into RoundCube and click on Calendar in the menu
+6. Voila!
 
 Skins / Themes
-------------------------------------------------------------------------
+--------------
+
 This plugin is skinable.
 
 This plugin ships a default skin which fits to the default skin of
@@ -23,7 +47,8 @@ from the default skin to the folder of your new skin. Files which are
 not found in the customized skin will be taken from the default skin.
 
 Backends
-------------------------------------------------------------------------
+--------
+
 The plugin separates the calendar view from the underlying backend.
 
 The following backends are available:
@@ -46,16 +71,21 @@ Requires a Google account!
 
 Note: This backend has only been tested with a DAViCal 0.9.7 server!
 
-Features:
-- Event viewing (getEvents)
-- Users: Either a fixed user and password is given in config.inc.php or you set
+### Features:
+* Event viewing (getEvents)
+* Users: Either a fixed user and password is given in config.inc.php or you set
     $rcmail_config['caldav_use_roundcube_login'] = true;
   to use the RoundCube login and password for the CalDAV server. Useful when
   RoundCube webmail and CalDAV server are operated in an LDAP domain.
 
-Known issues:
-- Cannot add/remove/move/resize events
-- Different calendars per user cannot be explicitly selected
+### Known issues:
+* Cannot add/remove/move/resize events
+* Different calendars per user cannot be explicitly selected
   -> needs new options for settings
-- Possible problems with multiple lines in descriptions
-- ... (guess there are more issues :-)
+* Possible problems with multiple lines in descriptions
+* ... (guess there are more issues :-)
+
+License
+-------
+
+RoundCube Calendar is licensed under the GPL License v2.
