@@ -15,7 +15,7 @@ $(document).ready(function() {
   // start loading
   rcmail.set_busy(true,'loading');
 
-  rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);       
+  rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);   
   // get settings
   rcmail.addEventListener('plugin.getSettings', setSettings);
   rcmail.http_post('plugin.getSettings', '');
@@ -176,4 +176,10 @@ $(document).ready(function() {
     $dialogContent.find("textarea").val("");
     $dialogContent.find("select").val("");
   }
+  
+  // export events
+  function exportEvents(){
+    return true;
+  }
+  rcmail.register_command('plugin.exportEvents', exportEvents, true);
 });
