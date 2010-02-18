@@ -44,9 +44,9 @@ final class Database extends Backend
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "UPDATE events 
-         SET summary = ?, description = ?, location = ?, categories = ?
-         WHERE event_id = ?
-         AND user_id = ?",
+         SET summary=?, description=?, location=?, categories=?
+         WHERE event_id=?
+         AND user_id=?",
         $summary,
         $description,
         $location,
@@ -61,9 +61,9 @@ final class Database extends Backend
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "UPDATE events 
-         SET start = ?, end = ?, all_day = ?
-         WHERE event_id = ?
-         AND user_id = ?",
+         SET start=?, end=?, all_day=?
+         WHERE event_id=?
+         AND user_id=?",
         $start,
         $end,
         $allDay,
@@ -77,9 +77,9 @@ final class Database extends Backend
     if (!empty($this->rcmail->user->ID)) {
       $query = $this->rcmail->db->query(
         "UPDATE events 
-         SET start = ?, end = ?
-         WHERE event_id = ?
-         AND user_id = ?",
+         SET start=?, end=?
+         WHERE event_id=?
+         AND user_id=?",
         $start,
         $end,
         $id,
@@ -112,14 +112,14 @@ final class Database extends Backend
       $events = array(); 
       while ($result && ($event = $this->rcmail->db->fetch_assoc($result))) {
         $events[]=array( 
-          'event_id'    => $event['event_id'], 
-          'start'       => $this->fromGMT($event['start']), 
-          'end'         => $this->fromGMT($event['end']), 
-          'summary'     => $event['summary'], 
-          'description' => $event['description'],
-          'location'    => $event['location'],
-          'categories'  => $event['categories'],
-          'all_day'      => $event['all_day'],
+          'event_id'    => (int) $event['event_id'], 
+          'start'       => (string) $this->fromGMT($event['start']), 
+          'end'         => (string) $this->fromGMT($event['end']), 
+          'summary'     => (string) $event['summary'], 
+          'description' => (string) $event['description'],
+          'location'    => (string) $event['location'],
+          'categories'  => (string) $event['categories'],
+          'all_day'     => (int) $event['all_day'],
         ); 
       }
 
