@@ -15,7 +15,7 @@ $(document).ready(function() {
   // start loading
   rcmail.set_busy(true,'loading');
 
-  rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);   
+  rcmail.addEventListener('plugin.reloadCalendar', reloadCalendar);
   // get settings
   rcmail.addEventListener('plugin.getSettings', setSettings);
   rcmail.http_post('plugin.getSettings', '');
@@ -55,22 +55,41 @@ $(document).ready(function() {
 
     loading : function(isLoading) {
       if(isLoading) {
+        rcmail.enable_command('plugin.calendar_print', false);
         rcmail.set_busy(true,'loading');
       } else {
-        rcmail.set_busy(false,'loading'); 
+        rcmail.set_busy(false,'loading');
+        if(calpopup){
+          previewPrintEvents();
+        }
       }
     },    
-    eventRender: function(event, element, view) { 
-      if(view.name != "month" && !event.allDay) {
+    eventRender: function(event, element, view) {
+      rcmail.enable_command('plugin.calendar_print', true);
+      if(view.name != "month") {
         if (event.className) {
-            element.find('span.fc-event-title').after("<span class=\"fc-event-categories\">"+event.className+"</span>");
+          if(!event.allDay)
+            element.find('span.fc-event-title').after("<span class=\"fc-event-categories\">"+rcmail.gettext(event.className, 'calendar')+"</span>");
         }
         if (event.location) {
-            element.find('span.fc-event-title').after("<span class=\"fc-event-location\">@"+event.location+"</span>");
+          element.find('span.fc-event-title').after("<span class=\"fc-event-location\">@"+event.location+"</span>");
         }
         if (event.description) {
-            element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+event.description+"</span>");
+          if(!event.allDay){
+            var mydescription = event.description;
+            if(mydescription.length > 20)
+              mydescription = mydescription.substring(0,20) + " ...";
+            element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+mydescription+"</span>");
+          }
         }
+      }
+      if(event.description.length && event.description.length > 20) {
+        element.qtip({
+          content: {
+            //find me: todo: position left/or right for first/last cal column
+            text: "<pre>"+event.description+"</pre>"
+          }
+        });
       }
     },
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -176,10 +195,23 @@ $(document).ready(function() {
     $dialogContent.find("textarea").val("");
     $dialogContent.find("select").val("");
   }
-  
+
   // export events
-  function exportEvents(){
+  function exportEvents() {
     return true;
   }
   rcmail.register_command('plugin.exportEvents', exportEvents, true);
+
+  // print events
+  var calpopup;
+  function previewPrintEvents(){
+    var url = './?_task=dummy&_action=plugin.calendar_print';
+    url = url + '&_view='  + escape($('#calendar').fullCalendar('getView').name.replace('agenda','basic'));
+    url = url + '&_date='   + escape($('#calendar').fullCalendar('getDate'));
+    calpopup = window.open(url, "Print", "width=720,height=740,location=0,resizable=1,scrollbars=1");
+    calpopup.focus();
+    return true;
+  }
+  rcmail.register_command('plugin.calendar_print', previewPrintEvents);
 });
+

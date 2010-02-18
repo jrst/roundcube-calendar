@@ -72,9 +72,13 @@ class calendar extends rcube_plugin
     
     $this->register_action('plugin.calendar', array($this, 'startup'));
     $this->register_action('plugin.getSettings', array($this, 'getSettings'));
-    
+    $this->add_hook('list_prefs_sections', array($this, 'calendarLink'));
     $this->add_hook('user_preferences', array($this, 'settingsTable'));
     $this->add_hook('save_preferences', array($this, 'saveSettings'));
+
+    //print
+    $this->register_action('plugin.calendar_print', array($this, 'calprint'));
+    $this->add_hook('template_object_datetime', array($this, 'datetime'));
 
     //backend actions
     $this->register_action('plugin.newEvent', array($this, 'newEvent'));
@@ -101,7 +105,23 @@ class calendar extends rcube_plugin
     $this->include_stylesheet('skins/' . $skin . '/calendar.css');
   }
 
-  function startup() {
+  function calendarLink($args)
+  {
+    $temp = $args['list']['server'];
+    unset($args['list']['server']);
+    $args['list']['calendarlink']['id'] = 'calendarlink';
+    $args['list']['calendarlink']['section'] = $this->gettext('calendar');
+    $args['list']['server'] = $temp;
+
+    return $args;
+  }
+
+
+  function startup($template = 'calendar.calendar') {
+    $temparr = explode(".", $template);
+    $domain = $temparr[0];
+    $template = $temparr[1];
+    
     $rcmail = rcmail::get_instance();
     
     $rcmail->output->set_pagetitle($this->gettext('calendar'));
@@ -117,18 +137,61 @@ class calendar extends rcube_plugin
     $this->register_handler('plugin.category_html', array($this, 'generateHTML'));
 
     $this->include_script('program/js/jquery-ui.js');
+    if($template == "calendar")
+      $this->include_script('program/js/jquery-qtip.js');
     $this->include_script('program/js/fullcalendar.js');
-    $this->include_script('program/js/calendar.js');
+    $this->include_script("program/js/$template.js");
     
-    $this->add_button(array(
-      'command' => 'plugin.exportEvents',
-      'href' => './?_task=dummy&amp;_action=plugin.exportEvents',
-      'title' => 'calendar.export',
-      'imagepas' => 'skins/' . $skin . '/images/export.png',
-      'imageact' => 'skins/' . $skin . '/images/export.png',
-      ), 'toolbar');
+    if($template == "calendar") {
+      $this->add_button(array(
+        'command' => 'plugin.calendar_print',
+        'href' => '#',
+        'title' => 'print',
+        'imagepas' => 'skins/' . $skin . '/images/spacer.gif',
+        'imageact' => 'skins/' . $skin . '/images/preview.png'),
+        'toolbar'
+      );
+    
+      $this->add_button(array(
+        'command' => 'plugin.exportEvents',
+        'href' => './?_task=dummy&amp;_action=plugin.exportEvents',
+        'title' => 'calendar.export',
+        'imagepas' => 'skins/' . $skin . '/images/export.png',
+        'imageact' => 'skins/' . $skin . '/images/export.png'),
+        'toolbar'
+      );
+    }
+    if($template == "print") {
+      $this->add_button(array(
+        'command' => 'plugin.calendar_toggle_view',
+        'href' => '#',
+        'title' => 'calendar.toggle_view',
+        'imagepas' => 'skins/' . $skin . '/images/spacer.gif',
+        'imageact' => 'skins/' . $skin . '/images/toggle_view.png'),
+        'toolbar'
+      );
       
-    $rcmail->output->send('calendar.calendar');
+      $this->add_button(array(
+        'command' => 'plugin.calendar_do_print',
+        'href' => '#',
+        'title' => 'print',
+        'imagepas' => 'skins/' . $skin . '/images/spacer.gif',
+        'imageact' => 'skins/' . $skin . '/images/print.png'),
+        'toolbar'
+      );
+    }
+    $rcmail->output->send("$domain.$template");
+  }
+  
+  function calprint() {
+    $this->startup('calendar.print');
+    exit;
+  }
+  
+  function datetime($args) {
+    $rcmail = rcmail::get_instance();
+    $args['content'] = date($rcmail->config->get("date_long"),time());
+    return($args);
   }
   
   function newEvent() {
@@ -206,12 +269,12 @@ class calendar extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     $settings = array();
+    
     // configuration
     $settings['default_view'] = $rcmail->config->get('default_view', "agendaWeek");
     $settings['time_format'] = $rcmail->config->get('time_format', "HH:mm");
     $settings['timeslots'] = $rcmail->config->get('timeslots', 2);
     $settings['first_day'] = $rcmail->config->get('first_day', 1);
-    
     $settings['first_hour'] = $rcmail->config->get('first_hour', 6);
 
     // localisation
@@ -249,8 +312,8 @@ class calendar extends rcube_plugin
   }
   
   function settingsTable($args) {
-    if ($args['section'] == 'server') {
-      $rcmail = rcmail::get_instance();   
+    if ($args['section'] == 'calendarlink') {
+      $rcmail = rcmail::get_instance();
       
       $args['blocks']['calendar']['name'] = $this->gettext('calendar');
  
@@ -304,7 +367,7 @@ class calendar extends rcube_plugin
   }
   
   function saveSettings($args) {
-    if ($args['section'] == 'server') {    
+    if ($args['section'] == 'calendarlink') {
       $rcmail = rcmail::get_instance();
       $args['prefs']['default_view'] = get_input_value('_default_view', RCUBE_INPUT_POST);
       $args['prefs']['time_format'] = get_input_value('_time_format', RCUBE_INPUT_POST);
@@ -346,7 +409,7 @@ class calendar extends rcube_plugin
     $select = "<select name=\"categories\">\n";
     $select .= "<option value=\"\"></option>\n";
     foreach ($categories as $class => $color) {
-      $select .= "<option value=\"" . $class . "\">" . $class . "</option>\n";
+      $select .= "<option value=\"" . $class . "\">" . $this->gettext($class) . "</option>\n";
     }
     $select .= "</select>";
 

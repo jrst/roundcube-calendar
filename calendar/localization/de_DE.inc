@@ -36,4 +36,13 @@ $labels['all-day'] = 'ganztägig';
 $labels['export'] = 'Als ICS exportieren';
 $labels['category'] = 'Kategorie';
 $labels['location'] = 'Ort';
+$labels['Personal'] = 'Privat';
+$labels['Work'] = 'Arbeit';
+$labels['Family'] = 'Familie';
+$labels['Holiday'] = 'Urlaub';
+$labels['date'] = 'Datum';
+$labels['start'] = 'Beginn';
+$labels['end'] = 'Ende';
+$labels['toggle_view'] = 'Ansicht wechseln';
+$labels['generated'] = 'erstellt am';
 ?>

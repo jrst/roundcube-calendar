@@ -36,4 +36,13 @@ $labels['all-day'] = 'all-day';
 $labels['export'] = 'Export to ICS';
 $labels['category'] = 'Category';
 $labels['location'] = 'Location';
+$labels['Personal'] = 'Personal';
+$labels['Work'] = 'Work';
+$labels['Family'] = 'Familiy';
+$labels['Holiday'] = 'Holiday';
+$labels['date'] = 'Date';
+$labels['start'] = 'Start';
+$labels['end'] = 'End';
+$labels['toggle_view'] = 'Toggle view';
+$labels['generated'] = 'generated at';
 ?>
