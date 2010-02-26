@@ -1,0 +1,25 @@
+A list of somehow sorted issues which are to be done. Feel free to pack any issue, work on it, and send us a patch.
+
+Lazlo
+-----
+
+* UI for user specific calendar settings, similar to http://www.peterbe.com/plog/public-calendars-on-google-calendar/cal.png
+* ...
+
+Roland
+------
+
+* recurring events
+* import from ICS
+* google backend
+* google calendar layer
+* ...
+
+Michael
+-------
+
+CalDAV backend
+* Add/remove/move/resize events
+* Per user settings for different calendars -> get rid of global calendar configuration
+* Multiple lines in descriptions
+* ...
