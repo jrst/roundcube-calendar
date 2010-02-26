@@ -21,10 +21,10 @@ Installation
 
 1. Unpack the RoundCube calendar package you downloaded
 2. Move the calendar folder into RoundCube's plugins folder
-3. Run the SQL file in /calendar/SQL/
-4. Remove the SQL folder
-5. Login into RoundCube and click on Calendar in the menu
-6. Voila!
+3. Login into RoundCube and click on Calendar in the menu
+4. Voila! You see some dummy events :-)
+   A proper backend has to be configured to show YOUR events.
+   See below.
 
 Skins / Themes
 --------------
@@ -60,6 +60,9 @@ databases or servers.
 
 Local SQL database. There is a SQL file to initially set up the
 databases and tables.
+
+1. Run the SQL file in /calendar/SQL/
+2. Remove the SQL folder
 
 ### "google": (Status: coming soon)
 
