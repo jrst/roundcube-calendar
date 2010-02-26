@@ -143,11 +143,9 @@ $(document).ready(function() {
             text: "<pre>"+event.description+"</pre>"
           },
           position: {
-            corner: {
-              target: 'bottomLeft',
-              tooltip: 'bottomLeft'
-            }
-          }
+          	target: 'mouse',
+          },
+          hide: { fixed: true }
         });
       }
     },
