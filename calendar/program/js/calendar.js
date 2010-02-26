@@ -143,9 +143,17 @@ $(document).ready(function() {
             text: "<pre>"+event.description+"</pre>"
           },
           position: {
-          	target: 'mouse',
-          },
-          hide: { fixed: true }
+            corner: {
+              target: 'mouse',
+              tooltip: 'bottomLeft'
+            },
+            hide: {
+              fixed: true,
+              when: {
+                event: 'mouseout'
+              }
+            }
+          }
         });
       }
     },
