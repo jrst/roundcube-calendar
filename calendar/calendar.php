@@ -143,7 +143,7 @@ class calendar extends rcube_plugin
       $this->include_script('program/js/date.js');
       $this->include_script('program/js/jquery.datePicker.js');
     }
-    $this->include_script('program/js/fullcalendar.js');
+    $this->include_script('program/js/fullcalendar.min.js');
     $this->include_script("program/js/$template.js");
     
     if($template == "calendar") {
