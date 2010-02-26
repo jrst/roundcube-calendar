@@ -132,13 +132,17 @@ class calendar extends rcube_plugin
     }
     $this->include_stylesheet('skins/' . $skin . '/jquery-ui.css');
     $this->include_stylesheet('skins/' . $skin . '/fullcalendar.css');
+    $this->include_stylesheet('skins/' . $skin . '/calendar.datePicker.css');
     
     $this->register_handler('plugin.category_css', array($this, 'generateCSS'));
     $this->register_handler('plugin.category_html', array($this, 'generateHTML'));
 
     $this->include_script('program/js/jquery-ui.js');
-    if($template == "calendar")
+    if($template == "calendar") {
       $this->include_script('program/js/jquery-qtip.js');
+      $this->include_script('program/js/date.js');
+      $this->include_script('program/js/jquery.datePicker.js');
+    }
     $this->include_script('program/js/fullcalendar.js');
     $this->include_script("program/js/$template.js");
     
@@ -151,7 +155,16 @@ class calendar extends rcube_plugin
         'imageact' => 'skins/' . $skin . '/images/preview.png'),
         'toolbar'
       );
-    
+      $this->add_button(array(
+        'command' => 'plugin.calendar_datepicker',
+        'href' => '#',
+        'id' => 'dp_position',
+        'title' => 'calendar.selectdate',
+        'class' => 'date-pick',
+        'imagepas' => 'skins/' . $skin . '/images/calendar.png',
+        'imageact' => 'skins/' . $skin . '/images/calendar.png'),
+        'toolbar'
+      );
       $this->add_button(array(
         'command' => 'plugin.exportEvents',
         'href' => './?_task=dummy&amp;_action=plugin.exportEvents',
@@ -170,7 +183,6 @@ class calendar extends rcube_plugin
         'imageact' => 'skins/' . $skin . '/images/toggle_view.png'),
         'toolbar'
       );
-      
       $this->add_button(array(
         'command' => 'plugin.calendar_do_print',
         'href' => '#',
@@ -271,11 +283,11 @@ class calendar extends rcube_plugin
     $settings = array();
     
     // configuration
-    $settings['default_view'] = $rcmail->config->get('default_view', "agendaWeek");
-    $settings['time_format'] = $rcmail->config->get('time_format', "HH:mm");
-    $settings['timeslots'] = $rcmail->config->get('timeslots', 2);
-    $settings['first_day'] = $rcmail->config->get('first_day', 1);
-    $settings['first_hour'] = $rcmail->config->get('first_hour', 6);
+    $settings['default_view'] = (string)$rcmail->config->get('default_view', "agendaWeek");
+    $settings['time_format'] = (string)$rcmail->config->get('time_format', "HH:mm");
+    $settings['timeslots'] = (int)$rcmail->config->get('timeslots', 2);
+    $settings['first_day'] = (int)$rcmail->config->get('first_day', 1);
+    $settings['first_hour'] = (int)$rcmail->config->get('first_hour', 6);
 
     // localisation
     $settings['days'] = array(

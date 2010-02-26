@@ -5,11 +5,14 @@
  *
  * @version 0.2 BETA 2
  * @author Lazlo Westerhof
+ * @author Roland Liebl
  * @url http://rc-calendar.lazlo.me
  * @licence GNU GPL
  * @copyright (c) 2010 Lazlo Westerhof - Netherlands
  *
  **/
+
+/* calendar initialization */
 $(document).ready(function() {
   
   // start loading
@@ -59,6 +62,57 @@ $(document).ready(function() {
         rcmail.set_busy(true,'loading');
       } else {
         rcmail.set_busy(false,'loading');
+        /* datepicker localization */
+        Date.dayNames = [
+                          response.settings['days'][0],
+                          response.settings['days'][1],
+                          response.settings['days'][2],
+                          response.settings['days'][3],
+                          response.settings['days'][4],
+                          response.settings['days'][5],
+                          response.settings['days'][6]
+                         ];
+        Date.abbrDayNames = [
+                          response.settings['days_short'][0],
+                          response.settings['days_short'][1],
+                          response.settings['days_short'][2],
+                          response.settings['days_short'][3],
+                          response.settings['days_short'][4],
+                          response.settings['days_short'][5],
+                          response.settings['days_short'][6]
+                            ];
+        Date.monthNames = [
+                          response.settings['months'][0],
+                          response.settings['months'][1],
+                          response.settings['months'][2],
+                          response.settings['months'][3],
+                          response.settings['months'][4],
+                          response.settings['months'][5],
+                          response.settings['months'][6],
+                          response.settings['months'][7],
+                          response.settings['months'][8],
+                          response.settings['months'][9],
+                          response.settings['months'][10],
+                          response.settings['months'][11]
+                          ];
+        Date.abbrMonthNames = [
+                          response.settings['months_short'][0],
+                          response.settings['months_short'][1],
+                          response.settings['months_short'][2],
+                          response.settings['months_short'][3],
+                          response.settings['months_short'][4],
+                          response.settings['months_short'][5],
+                          response.settings['months_short'][6],
+                          response.settings['months_short'][7],
+                          response.settings['months_short'][8],
+                          response.settings['months_short'][9],
+                          response.settings['months_short'][10],
+                          response.settings['months_short'][11]
+                          ];
+
+        Date.firstDayOfWeek = response.settings['first_day'];
+        
+        /* refresh print preview */
         if(calpopup){
           previewPrintEvents();
         }
@@ -86,8 +140,13 @@ $(document).ready(function() {
       if(event.description.length && event.description.length > 20) {
         element.qtip({
           content: {
-            //find me: todo: position left/or right for first/last cal column
             text: "<pre>"+event.description+"</pre>"
+          },
+          position: {
+            corner: {
+              target: 'bottomLeft',
+              tooltip: 'bottomLeft'
+            }
           }
         });
       }
@@ -195,14 +254,63 @@ $(document).ready(function() {
     $dialogContent.find("textarea").val("");
     $dialogContent.find("select").val("");
   }
+  
+  /* datepicker localization */
+  $.dpText = {
+    TEXT_PREV_YEAR: rcmail.gettext('prev_year','calendar'),
+    TEXT_PREV_MONTH: rcmail.gettext('prev_month','calendar'),
+    TEXT_NEXT_YEAR: rcmail.gettext('next_year','calendar'),
+    TEXT_NEXT_MONTH: rcmail.gettext('next_month','calendar'),
+    TEXT_CLOSE: rcmail.gettext('cancel','calendar'),
+    TEXT_CHOOSE_DATE: rcmail.gettext('choose_date','calendar'),
+    HEADER_FORMAT: 'mmmm yyyy'
+  }
+  
+  /* datepicker initialization */
+  $(function()
+  {
+    Date.format = 'dd/mm/yyyy';
+    var dp_start = '01/01/1900';
 
-  // export events
+    $('.date-pick')
+      .datePicker({
+        createButton:false,
+        startDate:dp_start,
+        displayClose:true
+      })
+      .bind(
+        'click',
+        function()
+        {
+          $(this).dpDisplay();
+          this.blur();
+          return false;
+        }
+      )
+      .bind(
+        'dateSelected',
+        function(e, selectedDate, $td)
+        {
+          $('#calendar').fullCalendar( 'gotoDate', $.fullCalendar.parseDate(selectedDate));
+        }
+      );
+      $('#dp_position').dpSetPosition($.dpConst.POS_BOTTOM, $.dpConst.POS_RIGHT);
+  });
+  
+  /* enable GUI commands */
+  /* export events */
   function exportEvents() {
     return true;
   }
   rcmail.register_command('plugin.exportEvents', exportEvents, true);
+  
+  /* date picker */
+  function selectDate() {
+    return true;
+  }
+  rcmail.register_command('plugin.calendar_datepicker', selectDate, true);
 
-  // print events
+  /* print events */
   var calpopup;
   function previewPrintEvents(){
     var url = './?_task=dummy&_action=plugin.calendar_print';
@@ -213,5 +321,5 @@ $(document).ready(function() {
     return true;
   }
   rcmail.register_command('plugin.calendar_print', previewPrintEvents);
-});
 
+});

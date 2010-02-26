@@ -45,4 +45,10 @@ $labels['start'] = 'Start';
 $labels['end'] = 'End';
 $labels['toggle_view'] = 'Toggle view';
 $labels['generated'] = 'generated at';
+$labels['selectdate'] = 'Select date';
+$labels['prev_year'] = 'Previous year';
+$labels['prev_month'] = 'Previous month';
+$labels['next_year'] = 'Next year';
+$labels['next_month'] = 'Next month';
+$labels['choose_date'] = 'Choose date';
 ?>
