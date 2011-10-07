@@ -72,9 +72,9 @@ class calendar extends rcube_plugin
     
     $this->register_action('plugin.calendar', array($this, 'startup'));
     $this->register_action('plugin.getSettings', array($this, 'getSettings'));
-    $this->add_hook('list_prefs_sections', array($this, 'calendarLink'));
-    $this->add_hook('user_preferences', array($this, 'settingsTable'));
-    $this->add_hook('save_preferences', array($this, 'saveSettings'));
+    $this->add_hook('preferences_section_list', array($this, 'calendarLink'));
+    $this->add_hook('preferences_list', array($this, 'settingsTable'));
+    $this->add_hook('preferences_save', array($this, 'saveSettings'));
 
     //print
     $this->register_action('plugin.calendar_print', array($this, 'calprint'));
