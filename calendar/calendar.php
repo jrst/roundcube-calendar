@@ -72,6 +72,8 @@ class calendar extends rcube_plugin
     
     $this->register_action('plugin.calendar', array($this, 'startup'));
     $this->register_action('plugin.getSettings', array($this, 'getSettings'));
+    ## AMD - 10/07/11
+    ## The following three hooks are deprecated and procuded warnings.
     $this->add_hook('preferences_section_list', array($this, 'calendarLink'));
     $this->add_hook('preferences_list', array($this, 'settingsTable'));
     $this->add_hook('preferences_save', array($this, 'saveSettings'));
