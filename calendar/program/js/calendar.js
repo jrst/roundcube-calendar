@@ -196,7 +196,8 @@ $(document).ready(function() {
                $dialogContent.dialog("destroy");
                $dialogContent.hide();
             },
-            buttons: buttons
+            buttons: buttons,
+            width: '330px'
          }).show();
       },
       eventClick : function(event) {
